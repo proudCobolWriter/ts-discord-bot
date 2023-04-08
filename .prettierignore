@@ -1,0 +1,24 @@
+# Folders
+
+node_modules/
+dist/
+logs/
+
+.git/
+.npm/
+.vscode/
+
+# Other files
+
+LICENSE
+
+.env
+
+.prettierignore
+.prettierrc
+.eslintignore
+.eslintrc
+
+# Rule out specific extensions
+
+*.md

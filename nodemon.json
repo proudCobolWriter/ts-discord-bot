@@ -1,0 +1,9 @@
+{
+	"ext": "ts",
+	"execMap": {
+		"ts": "ts-node-esm"
+	},
+	"watch": "src/**/*",
+	"verbose": true,
+	"signal": "SIGTERM"
+}

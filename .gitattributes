@@ -1,2 +1,16 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto-detect text files
+* text=auto eol=lf
+
+# Treat these as text files with linefeed endings
+*.txt text
+*.ts text
+*.md text
+
+# Binary files
+*.jpg binary
+*.ico binary
+*.png binary
+
+# Exclude these files from the git archive export (.zip)
+.gitattributes export-ignore
+.gitignore export-ignore

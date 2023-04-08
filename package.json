@@ -1,0 +1,36 @@
+{
+	"homepage": "https://github.com/proudCobolWriter/discord-bot",
+	"name": "discord-bot",
+	"version": "1.0.0",
+	"main": "./src/main.ts",
+	"scripts": {
+		"dev": "nodemon",
+		"start": "ts-node-esm ./src/main.ts",
+		"start:build": "npm run start:transpile",
+		"start:transpile": "tsc --build && SET NODE_ENV=production&& node ./dist/main.js",
+		"lint": "eslint . --ext .ts",
+		"prettify:check": "prettier --check .",
+		"prettify:fix": "prettier --write ."
+	},
+	"license": "ISC",
+	"engines": {
+		"node": ">= 16.9.0"
+	},
+	"type": "module",
+	"description": "A bot written in TypeScript made for a server",
+	"devDependencies": {
+		"@types/node": "^18.11.18",
+		"@typescript-eslint/eslint-plugin": "^5.54.1",
+		"@typescript-eslint/parser": "^5.54.1",
+		"eslint": "^8.36.0",
+		"prettier": "^2.8.3",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"discord.js": "^14.9.0",
+		"discord.js-rate-limiter": "^1.3.2",
+		"dotenv": "^16.0.3",
+		"winston": "^3.8.2"
+	}
+}

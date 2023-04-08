@@ -1,9 +1,9 @@
 <div align="center">
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
-![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
-![Nodemon](https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD)
+<img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white">
+<img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white">
+<img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white">
+<img src="https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white">
+<img src="https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD">
 </div>
 
 # discord-bot
@@ -22,22 +22,21 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 
 ## Installation in 3 steps
 
-1. Clone the repo
+1. **Clone** the repo
    
    git clone https://github.com/proudCobolWriter/discord-bot
-   
 
-2. Make sure [](environment variables) are specified
+2. Make sure [environment variables](#installation-in-3-steps) are specified
 
-3. Run the project (for Windows) :
+3. Run the project (for **Windows**) :
    ```bash
    bash startup.sh
    ```
 
 ### TODO:
-[ ] Fix bad practice when registering (/) commands via ApplicationCommandManager#fetch to retrieve all commands
-[ ] Implement jobs (i.g. updateBotPresence.ts)
-[ ] Do a few starter commands such as Wikipedia article search
-[ ] Add lang folder
-[ ] Add locales
-[ ] Print out .env variables in the case they are missing directly from a "doc" folder in the root directory
+- [ ] Fix bad practice when registering (/) commands via ApplicationCommandManager#fetch to retrieve all commands
+- [ ] Implement jobs (i.g. updateBotPresence.ts)
+- [ ] Do a few starter commands such as Wikipedia article search
+- [ ] Add lang folder
+- [ ] Add locales
+- [ ] Print out .env variables in the case they are missing directly from a "doc" folder in the root directory

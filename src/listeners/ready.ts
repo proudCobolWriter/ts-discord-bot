@@ -1,5 +1,6 @@
 import type { Client } from "discord.js";
-import Commands from "../commands/command.js";
+import type { DeployResult } from "../utils/deploy.js";
+import { deploy } from "../utils/deploy.js";
 
 export default (client: Client): void => {
 	client.on("ready", () => {
@@ -9,11 +10,14 @@ export default (client: Client): void => {
 
 		console.log(`${client.user.username} est en ligne`);
 
-		/*client.application.commands
-			.set(Commands)
+		deploy(client)
 			.then((col) => {
-				console.log(`Commande(s) (/) enregistrée(s) : ${col.size}`);
+				console.log(
+					`Commande(s) (/) enregistrée(s) : ${
+						(col as DeployResult).size
+					}`
+				);
 			})
-			.catch(console.error);*/
+			.catch(console.error);
 	});
 };

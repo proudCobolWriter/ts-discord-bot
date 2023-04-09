@@ -40,3 +40,4 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 - [ ] Add lang folder
 - [ ] Add locales
 - [ ] Print out .env variables in the case they are missing directly from a "doc" folder in the root directory
+- [ ] Remove the role from people who are not in the voice channels in case the bot process got killed

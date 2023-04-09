@@ -14,7 +14,10 @@ export default (client: Client): void => {
 
 	process.on("SIGINT", terminate);
 	process.on("SIGTERM", terminate);
+	/*
+	Cause une erreur uv_signal_start EINVA sur les nouvelles versions de Node
 	process.on("SIGKILL", () =>
 		console.log("\nSignal SIGKILL détecté (kill via Powershell possible)\n")
 	);
+	*/
 };

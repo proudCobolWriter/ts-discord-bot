@@ -23,14 +23,23 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 ## Installation in 3 steps
 
 1. **Clone** the repo
-   
-   git clone https://github.com/proudCobolWriter/discord-bot
+   ```bash
+   git clone https://github.com/proudCobolWriter/ts-discord-bot.git
+   ```
 
-2. Make sure [environment variables](#installation-in-3-steps) are specified
+2. Make sure all [**environment variables**](#root-env-variables) are specified
 
-3. Run the project (for **Windows**) :
+3. **Change dir**ectory to ts-discord-bot using the ``cd`` command
+
+4. **Run** the project :
+
+   * for **Windows** ⬇️
    ```bash
    bash startup.sh
+   ```
+   * for **Linux/UNIX**[^1] ⬇️
+   ```bash
+   sh startup.sh
    ```
 
 ### TODO:
@@ -41,3 +50,7 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 - [ ] Add locales
 - [ ] Print out .env variables in the case they are missing directly from a "doc" folder in the root directory
 - [ ] Remove the role from people who are not in the voice channels in case the bot process got killed
+
+<br>
+
+[^1]: Both syntaxes (``bash`` and ``sh``) work on **Linux/UNIX** systems.

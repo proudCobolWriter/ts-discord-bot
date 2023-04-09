@@ -7,7 +7,7 @@
 		"dev": "nodemon",
 		"start": "ts-node-esm ./src/main.ts",
 		"start:build": "npm run start:transpile",
-		"start:transpile": "tsc --build && SET NODE_ENV=production&& node ./dist/main.js",
+		"start:transpile": "tsc --build && set NODE_ENV=production&& node ./dist/main.js",
 		"lint": "eslint . --ext .ts",
 		"prettify:check": "prettier --check .",
 		"prettify:fix": "prettier --write ."

@@ -4,7 +4,6 @@ node_modules/
 dist/
 logs/
 
-.git/
 .npm/
 .vscode/
 

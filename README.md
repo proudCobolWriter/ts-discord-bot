@@ -33,12 +33,12 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 
 4. **Run** the project :
 
-   * for **Windows** ⬇️
-   ```bash
+   * for **Windows** with **Git Bash** ⬇️
+   ```
    bash startup.sh
    ```
    * for **Linux/UNIX**[^1] ⬇️
-   ```bash
+   ```
    sh startup.sh
    ```
 

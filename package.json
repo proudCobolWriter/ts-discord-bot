@@ -1,6 +1,6 @@
 {
-	"homepage": "https://github.com/proudCobolWriter/discord-bot",
-	"name": "discord-bot",
+	"homepage": "https://github.com/proudCobolWriter/ts-discord-bot",
+	"name": "ts-discord-bot",
 	"version": "1.0.0",
 	"main": "./src/main.ts",
 	"scripts": {

@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD">
 </div>
 
-# discord-bot
+# ts-discord-bot
  A bot written in TypeScript made for a French community server
 > **Note**
 > **All debug logs are written in French due to the bot being centered around a French Discord server.**

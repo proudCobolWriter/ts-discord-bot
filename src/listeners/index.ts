@@ -6,7 +6,5 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default filesystem
-	.readdirSync(__dirname, {
-		encoding: "utf-8",
-	})
-	.filter((file) => !file.startsWith("index"));
+	.readdirSync(__dirname)
+	.filter((file) => !file.startsWith("index") && !file.startsWith("ready"));

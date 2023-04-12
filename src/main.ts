@@ -1,16 +1,26 @@
 import "dotenv/config.js";
+import "./setuplogger.js";
 import "./utils/validateEnv.js";
 
 // Initialize the bot //
 
 import { default as client } from "./setupbot.js";
-import "./setuplogger.js";
 
 console.log("Instance de bot créée avec succès !");
+
+import { JobService } from "./services/index.js";
+import { UpdateBotPresence, RolePurger } from "./jobs/index.js";
+
+const jobService = new JobService([
+	new UpdateBotPresence(client),
+	new RolePurger(client),
+]);
+
+jobService.start();
 
 // Handle process termination //
 
 import { GracefulShutdown, RejectionsHandler } from "./process/index.js";
 
-GracefulShutdown(client);
+GracefulShutdown(client, jobService);
 RejectionsHandler();

@@ -1,4 +1,3 @@
-# Make sure the .env variables exist
 ENV_FILE=.env
 
 shopt -s expand_aliases
@@ -16,7 +15,7 @@ if [ ! -f "$ENV_FILE" ]; then
     printf "Indiquez l'ID du rôle qui est donné aux membres lorsqu'ils se connectent au(x) can(aux)al voc(aux)al que vous venez de specifier\n"
     read ROLE
     if test -f "$ENV_FILE"; then
-        printf "Le fichier $ENV_FILE a déjà été créé !"
+        printf "\e[0;41mLe fichier $ENV_FILE a déjà été créé !\e[0m\n"
         exit 1
     fi
     touch "$ENV_FILE"
@@ -28,22 +27,3 @@ if [ ! -f "$ENV_FILE" ]; then
     printf "\nRécapitulatif $ENV_FILE :\n"
     displaycontent
 fi
-
-# Sync the files with the repo
-echo $'\e[0;92m'Synchronisation des fichiers avec le repository$'\e[0m'
-
-git reset --hard
-git pull
-
-# Install node_modules in case it is missing
-echo Installation des $'\e[1;96m'dépendances$'\e[0m'
-
-npm install
-
-# Print outdated packages
-echo Liste des dépendances $'\e[0;101m'obsolètes$'\e[0m' :
-
-npm outdated
-
-# Startup sequence
-npm run start:build

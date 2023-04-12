@@ -16,7 +16,8 @@ const intents = new IntentsBitField();
 
 intents.add(
 	IntentsBitField.Flags.GuildVoiceStates,
-	IntentsBitField.Flags.Guilds
+	IntentsBitField.Flags.Guilds,
+	IntentsBitField.Flags.GuildMembers
 );
 
 // Setting up the bot
@@ -25,14 +26,17 @@ const client = new Client({
 	intents,
 });
 
+import readyEvent from "./listeners/ready.js";
+readyEvent(client);
+
 const rateLimiter = new RateLimiter(1, 5e3);
 
-Listeners.forEach(async (file) => {
+Listeners.forEach((file) => {
 	const name = path.parse(file).name;
 
 	import(`./listeners/${name}.js`)
 		.then((moduleResult) => {
-			console.log(`Évènement ${name}.js importé`);
+			console.log(`Évènement "${name}.js" importé`);
 			moduleResult.default(client, rateLimiter);
 		})
 		.catch((err: Error) => {

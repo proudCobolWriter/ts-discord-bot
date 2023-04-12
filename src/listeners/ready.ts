@@ -1,9 +1,9 @@
-import type { Client } from "discord.js";
+import { Events, type Client } from "discord.js";
 import type { DeployResult } from "../utils/deploy.js";
 import { deploy } from "../utils/deploy.js";
 
 export default (client: Client): void => {
-	client.on("ready", () => {
+	client.on(Events.ClientReady, () => {
 		if (!client.user || !client.application) {
 			return;
 		}
@@ -11,13 +11,18 @@ export default (client: Client): void => {
 		console.log(`${client.user.username} est en ligne`);
 
 		deploy(client)
-			.then((col) => {
+			.then((result: DeployResult) => {
 				console.log(
 					`Commande(s) (/) enregistrée(s) : ${
-						(col as DeployResult).size
+						Array.isArray(result) ? result.length : result.size
 					}`
 				);
 			})
-			.catch(console.error);
+			.catch((err) => {
+				console.log(
+					"Une erreur est survenue lors de l'enregistrement des commandes (/) :"
+				);
+				console.error(err);
+			});
 	});
 };

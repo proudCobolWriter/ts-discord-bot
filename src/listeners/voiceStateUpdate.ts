@@ -1,4 +1,10 @@
-import type { Client, Guild, VoiceState, GuildMember } from "discord.js";
+import {
+	type Client,
+	type Guild,
+	type VoiceState,
+	type GuildMember,
+	Events,
+} from "discord.js";
 
 const WhitelistedVoiceChannels = (process.env.VOICE_CHANNELS_IDS as string)
 	.replace(/ /g, "")
@@ -7,9 +13,9 @@ const WhitelistedVoiceChannels = (process.env.VOICE_CHANNELS_IDS as string)
 const [MainRole, MainGuild] = [
 	process.env.ROLE_ID,
 	process.env.GUILD_ID,
-] as Array<string>;
+] as string[];
 
-const setRole = (
+const setRole = async (
 	guild: Guild,
 	member: GuildMember,
 	shouldHaveRole: boolean
@@ -23,17 +29,23 @@ const setRole = (
 	if (!role)
 		return Promise.reject("Le rôle n'a pas été trouvé dans le serveur");
 
-	return member.roles[shouldHaveRole ? "add" : "remove"](
+	await member.roles[shouldHaveRole ? "add" : "remove"](
 		role,
 		`Cet utilisateur a ${
 			shouldHaveRole ? "rejoint" : "quitté"
 		} un canal vocal whitelist`
 	);
+
+	console.log(
+		`Rôle de ${member.user.username} ${
+			shouldHaveRole ? "ajouté" : "retiré"
+		}`
+	);
 };
 
 export default (client: Client) => {
 	client.on(
-		"voiceStateUpdate",
+		Events.VoiceStateUpdate,
 		(oldState: VoiceState, newState: VoiceState) => {
 			if (oldState.guild.id !== MainGuild) return;
 
@@ -55,11 +67,7 @@ export default (client: Client) => {
 			};
 
 			if (newState.channelId === null && oldState.channelId !== null) {
-				handlePromiseRejection(
-					setRole(newState.guild, member, false)?.then(() => {
-						console.log(`Rôle de ${member.user.username} enlevé`);
-					})
-				);
+				handlePromiseRejection(setRole(newState.guild, member, false));
 			} else if (
 				newState.channelId !== null &&
 				oldState.channelId === null
@@ -69,9 +77,7 @@ export default (client: Client) => {
 						newState.guild,
 						member,
 						WhitelistedVoiceChannels.includes(newState.channelId)
-					)?.then(() => {
-						console.log(`Rôle de ${member.user.username} ajouté`);
-					})
+					)
 				);
 			} else if (
 				newState.channelId !== null &&
@@ -82,11 +88,7 @@ export default (client: Client) => {
 						newState.guild,
 						member,
 						WhitelistedVoiceChannels.includes(newState.channelId)
-					)?.then(() => {
-						console.log(
-							`${member.user.username} a changé de salon vocal`
-						);
-					})
+					)
 				);
 			}
 		}

@@ -1,6 +1,9 @@
+import type { SimpleIntervalSchedule } from "toad-scheduler";
+
 export interface Job {
 	name: string;
-	log: boolean;
-	schedule: string;
-	run(): Promise<void>;
+	settings: SimpleIntervalSchedule;
+	run(...args: unknown[]): Promise<void>;
 }
+
+export type { SimpleIntervalSchedule };

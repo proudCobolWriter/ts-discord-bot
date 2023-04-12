@@ -27,11 +27,11 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
    git clone https://github.com/proudCobolWriter/ts-discord-bot.git
    ```
 
-2. Make sure all [**environment variables**](#root-env-variables) are specified
+2. Make sure all [**environment variables**](#root-env-variables) are specified (you can run skip to the last step)
 
 3. **Change dir**ectory to ts-discord-bot using the ``cd`` command
 
-4. **Run** the project :
+4. **Run** the shell script within ``ts-discord-bot`` :
 
    * for **Windows** with **Git Bash** ⬇️
    ```
@@ -43,13 +43,9 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
    ```
 
 ### TODO:
-- [ ] Fix bad practice when registering (/) commands via ApplicationCommandManager#fetch to retrieve all commands
-- [ ] Implement jobs (i.g. updateBotPresence.ts)
 - [ ] Do a few starter commands such as Wikipedia article search
-- [ ] Add lang folder
-- [ ] Add locales
-- [ ] Print out .env variables in the case they are missing directly from a "doc" folder in the root directory
-- [ ] Remove the role from people who are not in the voice channels in case the bot process got killed
+- [ ] Add locales (translate updateBotPresence.ts "members")
+- [ ] "To add onto this: fetching all commands only to compare and deploy if changes are detected is worse practice than just deploying on every start. Because discord compares the payload to your currently deployed commands and only applies changes anyway. So you trade 1 request with comparison maintained by discord against 1 + x requests with added local comparison that won’t be maintained by discord"
 
 <br>
 

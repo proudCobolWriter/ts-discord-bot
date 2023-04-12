@@ -40,9 +40,7 @@ Listeners.forEach((file) => {
 			moduleResult.default(client, rateLimiter);
 		})
 		.catch((err: Error) => {
-			console.error(
-				`Une erreur a été rencontrée lors du chargement de ${file} :`
-			);
+			console.error(`Une erreur a été rencontrée lors du chargement de ${file} :`);
 			console.error(err);
 		});
 });
@@ -50,9 +48,7 @@ Listeners.forEach((file) => {
 try {
 	await client.login(TOKEN);
 } catch (err) {
-	console.log(
-		"Une erreur a été rencontrée lors de la création de l'instance de bot :"
-	);
+	console.log("Une erreur a été rencontrée lors de la création de l'instance de bot :");
 	console.error(err);
 	process.exit(1);
 }

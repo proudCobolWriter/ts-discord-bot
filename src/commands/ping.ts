@@ -1,8 +1,4 @@
-import {
-	type CommandInteraction,
-	type Client,
-	ApplicationCommandType,
-} from "discord.js";
+import { type CommandInteraction, type Client, ApplicationCommandType } from "discord.js";
 import type { Command } from "./command.js";
 
 /**
@@ -20,9 +16,7 @@ export const ping: Command = {
 		});
 
 		const followUp = await interaction.followUp({
-			content: `**${
-				message.createdTimestamp - interaction.createdTimestamp
-			}**ms`,
+			content: `**${message.createdTimestamp - interaction.createdTimestamp}**ms`,
 		});
 
 		setTimeout(() => {

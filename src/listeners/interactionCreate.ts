@@ -14,9 +14,7 @@ const handleInteraction = async (
 	interaction: CommandInteraction,
 	rateLimiter: RateLimiter
 ): Promise<void> => {
-	const slashCommand = Commands.find(
-		(c) => c.name === interaction.commandName
-	);
+	const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
 	if (!slashCommand) {
 		await interaction.deferReply({ ephemeral: true });
@@ -58,9 +56,7 @@ const handleAutocompletion = async (
 	client: Client,
 	interaction: AutocompleteInteraction
 ) => {
-	const slashCommand = Commands.find(
-		(c) => c.name === interaction.commandName
-	);
+	const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
 	if (slashCommand && slashCommand.autocomplete != undefined) {
 		slashCommand.autocomplete(client, interaction);
@@ -70,11 +66,7 @@ const handleAutocompletion = async (
 export default (client: Client, rateLimiter: RateLimiter): void => {
 	client.on(Events.InteractionCreate, (interaction: Interaction) => {
 		// Make sure that interactions are not cross-servers
-		if (
-			interaction.inGuild() &&
-			interaction.guildId !== process.env.GUILD_ID
-		)
-			return;
+		if (interaction.inGuild() && interaction.guildId !== process.env.GUILD_ID) return;
 		if (interaction.isCommand() || interaction.isContextMenuCommand()) {
 			handleInteraction(client, interaction, rateLimiter).catch((err) => {
 				console.log(
@@ -82,9 +74,7 @@ export default (client: Client, rateLimiter: RateLimiter): void => {
 				);
 				console.error(err);
 			});
-		} else if (
-			interaction.type == InteractionType.ApplicationCommandAutocomplete
-		) {
+		} else if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
 			handleAutocompletion(client, interaction).catch((err) => {
 				console.log(
 					"Une erreur est survenue lors du traitement d'une autocomplétion :"

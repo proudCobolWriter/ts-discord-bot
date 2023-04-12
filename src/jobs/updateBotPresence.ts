@@ -1,10 +1,5 @@
 import type { Job, SimpleIntervalSchedule } from "./index.js";
-import {
-	ActivityType,
-	PresenceUpdateStatus,
-	type Client,
-	type Guild,
-} from "discord.js";
+import { ActivityType, PresenceUpdateStatus, type Client, type Guild } from "discord.js";
 
 const MainGuild = process.env.GUILD_ID as string;
 
@@ -20,8 +15,7 @@ export class UpdateBotPresence implements Job {
 
 	constructor(client: Client) {
 		this.client = client;
-		if (process.env.GUILD_ID)
-			this.guild = client.guilds.cache.get(MainGuild);
+		if (process.env.GUILD_ID) this.guild = client.guilds.cache.get(MainGuild);
 	}
 
 	public async run() {

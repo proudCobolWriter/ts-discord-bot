@@ -87,10 +87,7 @@ export const about: Command = {
 
 		error();
 	},
-	autocomplete: async (
-		client: Client,
-		interaction: AutocompleteInteraction
-	) => {
+	autocomplete: async (client: Client, interaction: AutocompleteInteraction) => {
 		const focusedValue = interaction.options.getFocused();
 		const filtered = languageChoices.filter((choice) =>
 			choice.startsWith(focusedValue)

@@ -18,14 +18,7 @@ if (process.env.NODE_ENV === "production") {
 			}),
 			winston.format.colorize(),
 			winston.format.printf(
-				({
-					level,
-					message,
-					timestamp,
-					stack,
-				}: {
-					[key: string]: string;
-				}) => {
+				({ level, message, timestamp, stack }: { [key: string]: string }) => {
 					if (stack) {
 						return `${level}: LOGS-DU-BOT: ${timestamp}: ${stack}`;
 					}

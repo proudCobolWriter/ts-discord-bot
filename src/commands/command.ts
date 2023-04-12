@@ -7,10 +7,7 @@ import type {
 
 export interface Command extends ChatInputApplicationCommandData {
 	run: (client: Client, interaction: CommandInteraction) => void;
-	autocomplete?: (
-		client: Client,
-		interaction: AutocompleteInteraction
-	) => void;
+	autocomplete?: (client: Client, interaction: AutocompleteInteraction) => void;
 }
 
 // List of commands //

@@ -5,10 +5,7 @@ const WhitelistedVoiceChannels = (process.env.VOICE_CHANNELS_IDS as string)
 	.replace(/ /g, "")
 	.split(",");
 
-const [MainRole, MainGuild] = [
-	process.env.ROLE_ID,
-	process.env.GUILD_ID,
-] as string[];
+const [MainRole, MainGuild] = [process.env.ROLE_ID, process.env.GUILD_ID] as string[];
 
 export class RolePurger implements Job {
 	public name = "Role Purger";

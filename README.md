@@ -45,6 +45,7 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 ### TODO:
 - [ ] Do a few starter commands such as Wikipedia article search
 - [ ] Add locales (translate updateBotPresence.ts "members")
+- [ ] Fix logger and add rotating
 - [ ] "To add onto this: fetching all commands only to compare and deploy if changes are detected is worse practice than just deploying on every start. Because discord compares the payload to your currently deployed commands and only applies changes anyway. So you trade 1 request with comparison maintained by discord against 1 + x requests with added local comparison that won’t be maintained by discord"
 
 <br>

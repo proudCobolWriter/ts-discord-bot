@@ -9,7 +9,7 @@ export type DeployResult =
 export const deploy = async (client: Client): Promise<DeployResult> => {
 	if (!client.application) throw new Error("Impossible de trouver client.application");
 
-	const forceDeploy = process.argv.some((argument) => argument === "--force-deploy");
+	const forceDeploy = process.argv.some((argument) => argument === "--deploy");
 	const currentClientCommands = await client.application.commands.fetch();
 	let commandsChanged = forceDeploy || currentClientCommands.size !== Commands.length;
 

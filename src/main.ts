@@ -2,6 +2,9 @@ import "dotenv/config.js";
 import "./setuplogger.js";
 import "./utils/validateEnv.js";
 
+import data from "./utils/config.js";
+console.log(data);
+
 // Initialize the bot //
 
 import { default as client } from "./setupbot.js";

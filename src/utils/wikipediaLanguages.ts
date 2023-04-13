@@ -48,7 +48,6 @@ const PATH_TO_DATASET = path.resolve(
 let DATA: WikiLanguage[] = [];
 
 try {
-	await fs.access(PATH_TO_DATASET);
 	const file = await fs.readFile(PATH_TO_DATASET);
 	DATA = JSON.parse(file.toString());
 } catch (err) {

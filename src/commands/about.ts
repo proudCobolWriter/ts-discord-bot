@@ -1,14 +1,15 @@
-// @ts-nocheck
-
 import {
 	type CommandInteraction,
 	type Client,
-	type AutocompleteInteraction,
+	/*type AutocompleteInteraction,*/
 	ApplicationCommandType,
 	ApplicationCommandOptionType,
 } from "discord.js";
 import type { Command } from "./command.js";
-import { DiscordLimits } from "../constants/index.js";
+
+import lang from "../../lang/commands.json";
+
+/*import { DiscordLimits } from "../constants/index.js";
 import wiki, { type Link } from "wikijs";
 import languagesList from "../utils/wikipediaLanguages.js";
 
@@ -46,11 +47,8 @@ links.forEach((elem) => {
 
 content.forEach((elem: any) => {
 	//console.log(elem);
-});
+});*/
 
-/**
- * @type {import("./command.js").Command}
- */
 export const about: Command = {
 	name: "duguesclin",
 	description: "Returns the Wikipedia page of the famed Bertrand du Guesclin",
@@ -87,8 +85,8 @@ export const about: Command = {
 
 		error();
 	},
-	autocomplete: async (client: Client, interaction: AutocompleteInteraction) => {
-		const focusedValue = interaction.options.getFocused();
+	autocomplete: async (/*client: Client, interaction: AutocompleteInteraction*/) => {
+		/*const focusedValue = interaction.options.getFocused();
 		const filtered = languageChoices.filter((choice) =>
 			choice.startsWith(focusedValue)
 		);
@@ -100,6 +98,6 @@ export const about: Command = {
 
 		await interaction.respond(
 			filtered.map((choice) => ({ name: choice, value: choice }))
-		);
+		);*/
 	},
 };

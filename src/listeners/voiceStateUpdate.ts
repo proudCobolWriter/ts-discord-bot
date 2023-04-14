@@ -3,22 +3,27 @@ import {
 	type Guild,
 	type VoiceState,
 	type GuildMember,
+	type Snowflake,
 	Events,
 } from "discord.js";
 
-const WhitelistedVoiceChannels = (process.env.VOICE_CHANNELS_IDS as string)
-	.replace(/ /g, "")
-	.split(",");
+import config from "../../config.js";
 
-const [MainRole, MainGuild] = [process.env.ROLE_ID, process.env.GUILD_ID] as string[];
+const enabled =
+	config.voiceAutoroleSettings.enable && config.voiceAutoroleSettings.rules.length > 0;
 
-const setRole = async (guild: Guild, member: GuildMember, shouldHaveRole: boolean) => {
-	const hasRole = member.roles.cache.some((role) => role.id === MainRole);
+const setRole = async (
+	guild: Guild,
+	member: GuildMember,
+	shouldHaveRole: boolean,
+	roleId: Snowflake
+) => {
+	const hasRole = member.roles.cache.some((role) => role.id === roleId);
 	if (shouldHaveRole === hasRole)
 		// makes sure we don't needlessly add/remove the role from the user
 		return Promise.resolve();
 
-	const role = guild.roles.cache.get(MainRole);
+	const role = guild.roles.cache.get(roleId);
 	if (!role) return Promise.reject("Le rôle n'a pas été trouvé dans le serveur");
 
 	await member.roles[shouldHaveRole ? "add" : "remove"](
@@ -35,11 +40,9 @@ const setRole = async (guild: Guild, member: GuildMember, shouldHaveRole: boolea
 
 export default (client: Client) => {
 	client.on(Events.VoiceStateUpdate, (oldState: VoiceState, newState: VoiceState) => {
-		if (oldState.guild.id !== MainGuild) return;
+		if (!enabled) return;
 
-		const members = newState.guild.members;
-		const member = members.cache.get(newState.id);
-
+		const member = newState.guild.members.cache.get(newState.id);
 		if (!member) {
 			console.error("Le membre n'a pas été trouvé dans le serveur");
 			return;
@@ -54,24 +57,31 @@ export default (client: Client) => {
 			});
 		};
 
-		if (newState.channelId === null && oldState.channelId !== null) {
-			handlePromiseRejection(setRole(newState.guild, member, false));
-		} else if (newState.channelId !== null && oldState.channelId === null) {
-			handlePromiseRejection(
-				setRole(
-					newState.guild,
-					member,
-					WhitelistedVoiceChannels.includes(newState.channelId)
-				)
-			);
-		} else if (newState.channelId !== null && oldState.channelId !== null) {
-			handlePromiseRejection(
-				setRole(
-					newState.guild,
-					member,
-					WhitelistedVoiceChannels.includes(newState.channelId)
-				)
-			);
+		for (const rule of config.voiceAutoroleSettings.rules) {
+			if (newState.channelId === null && oldState.channelId !== null) {
+				// Member left a voice channel
+				handlePromiseRejection(setRole(newState.guild, member, false, rule.role));
+			} else if (newState.channelId !== null && oldState.channelId === null) {
+				// Member joined a voice channel
+				handlePromiseRejection(
+					setRole(
+						newState.guild,
+						member,
+						newState.channelId === rule.channel,
+						rule.role
+					)
+				);
+			} else if (newState.channelId !== null && oldState.channelId !== null) {
+				// Member switched voice channels
+				handlePromiseRejection(
+					setRole(
+						newState.guild,
+						member,
+						newState.channelId === rule.channel,
+						rule.role
+					)
+				);
+			}
 		}
 	});
 };

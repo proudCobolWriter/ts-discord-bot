@@ -1,39 +1,53 @@
-import { EmbedBuilder, Events, type Client, ChannelType } from "discord.js";
+import { Events, type Client, ChannelType, type APIEmbed } from "discord.js";
 
-const timeout = (s: number): Promise<void> => {
-	return new Promise((resolve) => setTimeout(resolve, s * 1000));
-};
+import config from "../../config.js";
+
+const enabled =
+	config.welcomeMessageSettings.enable &&
+	config.welcomeMessageSettings.messages.length > 0;
+
+const timeout = (s: number): Promise<void> =>
+	new Promise((resolve) => setTimeout(resolve, s * 1000));
 
 export default (client: Client): void => {
 	client.on(Events.GuildMemberAdd, async (member) => {
-		//if (member.user.bot) return;
-		console.log(member.user.bot);
-		if (member.guild.id === process.env.GUILD_ID && process.env.WELCOME_CHANNEL_ID) {
-			try {
-				const channel = await member.guild.channels.fetch(
-					process.env.WELCOME_CHANNEL_ID
-				);
+		if (!enabled || member.user.bot) return;
 
-				if (!channel || channel.type !== ChannelType.GuildText) return;
+		const messages = config.welcomeMessageSettings.messages;
+		const welcomeMessage = messages.find(
+			(message) => message.guild === member.guild.id
+		);
+		if (!welcomeMessage) return;
 
-				const welcomeEmbed = new EmbedBuilder()
-					.setColor("#ED4245")
-					.setDescription(
-						`Bonjour <@!${member.user.id}>, bienvenue au **Cercle Richelieu** !\n\nPour accéder au reste du serveur, vous devez passer l’entretien d’admission.\n🎙️ *L'entretien se passe uniquement en vocal.*\n\n🗓️ *Veuillez indiquer dans ce salon vos disponibilités pour cet entretien.*\n\nEn attendant, je vous encourage à consulter notre #𝐂𝐇𝐀𝐑𝐓𝐄\nVous pouvez aussi consulter notre site [ici](https://www.lecerclerichelieu.fr/).`
-					);
+		const guild = client.guilds.cache.get(welcomeMessage.guild);
+		if (!guild) return;
 
-				await Promise.all([channel.sendTyping(), timeout(3)]);
-				await channel.send({ embeds: [welcomeEmbed] });
+		const channel = guild.channels.cache.get(welcomeMessage.channel);
+		if (!channel || channel.type !== ChannelType.GuildText) return;
 
-				console.log(
-					`${member.user.tag} a rejoint : Message de bienvenue envoyé dans le salon ${channel.name}`
-				);
-			} catch (err) {
-				console.log(
-					"Une erreur est survenue lors du traitement de l'évènement Events.GuildMemberAdd :"
-				);
-				console.error(err);
-			}
+		try {
+			if (welcomeMessage.typingDuration && welcomeMessage.typingDuration > 0)
+				await Promise.all([
+					channel.sendTyping(),
+					timeout(welcomeMessage.typingDuration),
+				]);
+			await channel.send({
+				embeds: JSON.parse(
+					JSON.stringify(welcomeMessage.embeds).replaceAll(
+						"%tag_user%",
+						"<@!" + member.user.id + ">"
+					)
+				) as APIEmbed[],
+			});
+
+			console.log(
+				`${member.user.tag} a rejoint : Message de bienvenue envoyé dans le salon ${channel.name}`
+			);
+		} catch (err) {
+			console.log(
+				`Une erreur est survenue lors de l'envoi du message de bienvenue sur le serveur ${guild.name} :`
+			);
+			console.error(err);
 		}
 	});
 };

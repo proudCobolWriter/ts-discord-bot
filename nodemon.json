@@ -1,9 +1,13 @@
 {
+	"env": {
+		"NODE_ENV": "development"
+	},
 	"ext": "ts",
 	"execMap": {
 		"ts": "ts-node-esm"
 	},
-	"watch": "src/**/*",
+	"watch": ["./src/", "./config.ts", "./configTypes.d.ts", "./.env"],
 	"verbose": true,
-	"signal": "SIGTERM"
+	"signal": "SIGTERM",
+	"delay": 1000
 }

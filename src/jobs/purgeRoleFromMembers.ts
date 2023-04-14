@@ -1,53 +1,51 @@
 import type { Job, SimpleIntervalSchedule } from "./index.js";
-import type { Client, Guild } from "discord.js";
+import type { Client } from "discord.js";
 
-const WhitelistedVoiceChannels = (process.env.VOICE_CHANNELS_IDS as string)
-	.replace(/ /g, "")
-	.split(",");
+import config from "../../config.js";
 
-const [MainRole, MainGuild] = [process.env.ROLE_ID, process.env.GUILD_ID] as string[];
+const enabled =
+	config.voiceAutoroleSettings.enable && config.voiceAutoroleSettings.rules.length > 0;
 
 export class RolePurger implements Job {
 	public name = "Role Purger";
 	public settings: SimpleIntervalSchedule = {
-		seconds: 5,
 		runImmediately: false,
+		...config.voiceAutoroleSettings.purgeInterval,
 	};
 
 	private client: Client;
-	private guild: Guild | undefined;
 
 	constructor(client: Client) {
 		this.client = client;
-		if (MainGuild) this.guild = client.guilds.cache.get(MainGuild);
 	}
 
 	public async run() {
-		if (!this.guild) {
-			console.error(`{TÂCHE ${this.name}} Le serveur n'a pas été trouvé`);
-			return;
-		}
+		if (!enabled || !this.client.isReady() || !this.client.user) return;
 
-		if (!this.client.isReady()) return;
+		for (const rule of config.voiceAutoroleSettings.rules) {
+			const guild = this.client.guilds.cache.get(rule.guild);
+			if (!guild) continue;
 
-		const members = await this.guild.members.fetch();
-		const membersWithRole = members.filter((member) =>
-			member.voice.channelId !== null &&
-			WhitelistedVoiceChannels.includes(member.voice.channelId)
-				? false
-				: member.roles.cache.some((role) => role.id === MainRole)
-		);
+			const members = await guild.members.fetch();
+			const membersWithRole = members.filter(
+				(member) =>
+					member.voice.channelId !== rule.channel &&
+					member.roles.cache.some((role) => role.id === rule.role)
+			);
 
-		await Promise.all(
-			membersWithRole.map(async (member) => {
-				await member.roles.remove(
-					MainRole,
-					"Cet utilisateur n'est pas censé avoir ce rôle"
+			await Promise.all(
+				membersWithRole.map(async (member) => {
+					await member.roles.remove(
+						rule.role,
+						"Cet utilisateur n'est pas censé avoir ce rôle"
+					);
+				})
+			);
+
+			if (membersWithRole.size > 0)
+				console.log(
+					`Purge effectuée pour le rôle <@&${rule.role}> sur le serveur ${guild.name} (${membersWithRole.size} rôle(s) retiré(s))`
 				);
-			})
-		);
-
-		if (membersWithRole.size > 0)
-			console.log(`${membersWithRole.size} rôle(s) retiré(s) en masse`);
+		}
 	}
 }

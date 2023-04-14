@@ -12,6 +12,7 @@
 		"alwaysStrict": true,
 		"noImplicitAny": true,
 		"noImplicitThis": true,
+		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["./**/*.ts"],

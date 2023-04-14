@@ -26,9 +26,7 @@
 
 */
 
-import fs from "fs/promises";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
+import DATA from "../../datasets/wikipedia-languages.json";
 
 export type WikiLanguage = {
 	lang: string;
@@ -36,28 +34,7 @@ export type WikiLanguage = {
 	code?: string;
 };
 
-const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
-const PATH_TO_DATASET = path.resolve(
-	CURRENT_DIR,
-	"..",
-	"..",
-	"datasets",
-	"wikipedia-languages.json"
-);
-
-let DATA: WikiLanguage[] = [];
-
-try {
-	const file = await fs.readFile(PATH_TO_DATASET);
-	DATA = JSON.parse(file.toString());
-} catch (err) {
-	console.log(
-		"Une erreur est survenue lors de la lecture du dataset wikipedia-languages.json :"
-	);
-	console.error(err);
-}
-
-const MAPPED_DATA: Map<string | undefined, WikiLanguage> = new Map();
+const MAPPED_DATA: Map<string, WikiLanguage> = new Map();
 
 DATA.forEach((x) => {
 	MAPPED_DATA.set(x.code, { lang: x.lang, lang_loc: x.lang_loc });

@@ -44,7 +44,6 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
 
 ### TODO:
 - [ ] Do a few starter commands such as Wikipedia article search
-- [ ] Add locales
 - [ ] Fix logger and add rotating
 
 <br>

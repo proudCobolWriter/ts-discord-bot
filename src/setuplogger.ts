@@ -12,7 +12,7 @@ const logFormat = printf(({ level, label, timestamp, message, stack }) => {
 	const content =
 		typeof message === "object" ? JSON.stringify(message, null, 4) : message;
 
-	return `[BOT-${label}] ${level}: ${timestamp}:${import.meta.url} ${stack || content}`;
+	return `[BOT-${label}] ${level}: ${timestamp}: ${stack || content}`;
 });
 
 // Transports //

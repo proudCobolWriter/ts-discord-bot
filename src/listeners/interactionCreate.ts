@@ -64,9 +64,7 @@ const handleAutocompletion = async (
 };
 
 export default (client: Client, rateLimiter: RateLimiter): void => {
-	client.on(Events.InteractionCreate, (interaction: Interaction) => {
-		// Make sure that interactions are not cross-servers
-		if (interaction.inGuild() && interaction.guildId !== process.env.GUILD_ID) return;
+	client.on(Events.InteractionCreate, (interaction: Interaction): void => {
 		if (interaction.isCommand() || interaction.isContextMenuCommand()) {
 			handleInteraction(client, interaction, rateLimiter).catch((err) => {
 				console.log(

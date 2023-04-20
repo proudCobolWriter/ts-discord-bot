@@ -3,7 +3,7 @@ import type { DeployResult } from "../utils/deploy.js";
 import { deploy } from "../utils/deploy.js";
 
 export default (client: Client): void => {
-	client.on(Events.ClientReady, () => {
+	client.on(Events.ClientReady, (): void => {
 		if (!client.user || !client.application) {
 			return;
 		}
@@ -13,7 +13,7 @@ export default (client: Client): void => {
 		deploy(client)
 			.then((result: DeployResult) => {
 				console.log(
-					`Commande(s) (/) enregistrée(s) : ${
+					`Commande(s) (/) trouvée(s) : ${
 						Array.isArray(result) ? result.length : result.size
 					}`
 				);

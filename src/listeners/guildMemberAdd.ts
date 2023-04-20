@@ -1,4 +1,4 @@
-import { Events, type Client, ChannelType, type APIEmbed } from "discord.js";
+import { Events, type Client, ChannelType } from "discord.js";
 
 import config from "../../config.js";
 
@@ -10,7 +10,7 @@ const timeout = (s: number): Promise<void> =>
 	new Promise((resolve) => setTimeout(resolve, s * 1000));
 
 export default (client: Client): void => {
-	client.on(Events.GuildMemberAdd, async (member) => {
+	client.on(Events.GuildMemberAdd, async (member): Promise<void> => {
 		if (!enabled || member.user.bot) return;
 
 		const messages = config.welcomeMessageSettings.messages;
@@ -31,14 +31,15 @@ export default (client: Client): void => {
 					channel.sendTyping(),
 					timeout(welcomeMessage.typingDuration),
 				]);
-			await channel.send({
-				embeds: JSON.parse(
-					JSON.stringify(welcomeMessage.embeds).replaceAll(
+
+			await channel.send(
+				JSON.parse(
+					JSON.stringify(welcomeMessage.message).replaceAll(
 						"%tag_user%",
 						"<@!" + member.user.id + ">"
 					)
-				) as APIEmbed[],
-			});
+				)
+			);
 
 			console.log(
 				`${member.user.tag} a rejoint : Message de bienvenue envoyé dans le salon ${channel.name}`

@@ -1,12 +1,13 @@
 import { type CommandInteraction, type Client, ApplicationCommandType } from "discord.js";
 import type { Command } from "./command.js";
 
-/**
- * @type {import("./command.js").Command}
- */
+import lang from "../../lang/commands.json" assert { type: "json" };
+
 export const ping: Command = {
 	name: "ping",
+	nameLocalizations: lang.ping.nameLocalizations,
 	description: "Returns my ping",
+	descriptionLocalizations: lang.ping.descriptionLocalizations,
 	type: ApplicationCommandType.ChatInput,
 	dmPermission: true,
 	run: async (client: Client, interaction: CommandInteraction) => {

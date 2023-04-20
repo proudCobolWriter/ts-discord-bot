@@ -11,13 +11,10 @@
 > **Note**
 > **All debug logs are written in French due to the bot being centered around a French Discord server.**
 
-## root **.env** variables
+## root **.env** variable(s)
 
-```js
-TOKEN // The token of the Discord bot
-ROLE_ID // The role ID that is given when a member joins any of the VOICE_CHANNELS_IDS
-GUILD_ID // The guild ID where the above takes place
-VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive the role once they connect to them
+```
+TOKEN <- The token of the Discord bot
 ```
 
 ## Installation in 3 steps
@@ -27,9 +24,9 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
    git clone https://github.com/proudCobolWriter/ts-discord-bot.git
    ```
 
-2. Make sure all [**environment variables**](#root-env-variables) are specified (you can run skip to the last step)
+2. Make sure the ``TOKEN`` [**environment variable**](#root-env-variables) is specified (optional; you can skip to the last step)
 
-3. **Change dir**ectory to ts-discord-bot using the ``cd`` command
+3. **C**hange **d**irectory to ``ts-discord-bot`` using the ``cd`` command
 
 4. **Run** the shell script within ``ts-discord-bot`` :
 
@@ -43,8 +40,9 @@ VOICE_CHANNELS_IDS // The IDs of the voice channels where members should receive
    ```
 
 ### TODO:
-- [ ] Do a few starter commands such as Wikipedia article search
-- [ ] Fix logger and add rotating
+- [ ] Release a few starter commands such as Wikipedia article search
+- [ ] Include the filename in stack-free logs
+- [ ] Auto restart
 
 <br>
 

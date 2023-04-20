@@ -3,6 +3,28 @@
 		"nameLocalizations": {},
 		"descriptionLocalizations": {
 			"fr": "Affiche la page Wikipedia du personnage historique Bertrand du Guesclin"
+		},
+		"options": {
+			"language": {
+				"nameLocalizations": {
+					"fr": "langue"
+				},
+				"descriptionLocalizations": {
+					"fr": "Votre langue de préférence"
+				}
+			},
+			"article": {
+				"nameLocalizations": {},
+				"descriptionLocalizations": {
+					"fr": "La partie de l'article Wikipedia que vous souhaitez visionner"
+				}
+			}
+		}
+	},
+	"ping": {
+		"nameLocalizations": {},
+		"descriptionLocalizations": {
+			"fr": "Renvoie la latence du bot en millisecondes"
 		}
 	}
 }

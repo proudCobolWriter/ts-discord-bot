@@ -1,8 +1,9 @@
 import type { SimpleIntervalSchedule } from "toad-scheduler";
-import type { APIEmbed, PresenceData, Snowflake } from "discord.js";
+import type { BaseMessageOptions, PresenceData, Snowflake } from "discord.js";
 
 // Type definitions //
 
+//	 Types	 //
 export type Setting = object;
 export type DisableableSetting = {
 	enable: boolean;
@@ -11,7 +12,7 @@ export type DisableableSetting = {
 export type IntervalSchedule = Omit<SimpleIntervalSchedule, "runImmediately">;
 
 export type WelcomeMessage = {
-	embeds: Array<APIEmbed>;
+	message: BaseMessageOptions;
 	guild: Snowflake;
 	channel: Snowflake;
 	typingDuration?: 3;
@@ -23,6 +24,16 @@ export type AutoroleRule = {
 	guild: Snowflake;
 };
 
+export type YoutubeRule = {
+	message: BaseMessageOptions;
+	youtubeChannel: string;
+	discordChannel: Snowflake;
+};
+
+export type YoutubeNotificationSettings = {
+	youtubeRules?: Array<YoutubeRule>;
+};
+
 export interface PresenceDataExtra extends PresenceData {
 	retrieveGuildInfo?: {
 		guild: Snowflake;
@@ -30,22 +41,30 @@ export interface PresenceDataExtra extends PresenceData {
 	};
 }
 
-export interface WelcomeMessageSettings extends Setting, DisableableSetting {
+//  Interfaces  //
+export interface WelcomeMessageSettings extends DisableableSetting {
 	messages: Array<WelcomeMessage>;
 }
 
-export interface VoiceAutoroleSettings extends Setting, DisableableSetting {
+export interface VoiceAutoroleSettings extends DisableableSetting {
 	rules: Array<AutoroleRule>;
 	purgeInterval: IntervalSchedule;
 }
 
-export interface PresenceSettings extends Setting, DisableableSetting {
+export interface NotificationSettings
+	extends DisableableSetting,
+		YoutubeNotificationSettings {
+	queryInterval: IntervalSchedule;
+}
+
+export interface PresenceSettings extends DisableableSetting {
 	presences: Array<PresenceDataExtra>;
 	cycleInterval: IntervalSchedule;
 }
 
 export interface ConfigData {
-	welcomeMessageSettings: WelcomeMessageSettings;
-	voiceAutoroleSettings: VoiceAutoroleSettings;
-	presenceSettings: PresenceSettings;
+	welcomeMessageSettings: Setting & WelcomeMessageSettings;
+	voiceAutoroleSettings: Setting & VoiceAutoroleSettings;
+	notificationsSettings: Setting & NotificationSettings;
+	presenceSettings: Setting & PresenceSettings;
 }

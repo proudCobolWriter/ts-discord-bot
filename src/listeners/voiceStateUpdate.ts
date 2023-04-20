@@ -38,50 +38,53 @@ const setRole = async (
 	);
 };
 
-export default (client: Client) => {
-	client.on(Events.VoiceStateUpdate, (oldState: VoiceState, newState: VoiceState) => {
-		if (!enabled) return;
+export default (client: Client): void => {
+	client.on(
+		Events.VoiceStateUpdate,
+		(oldState: VoiceState, newState: VoiceState): void => {
+			if (!enabled) return;
 
-		const member = newState.guild.members.cache.get(newState.id);
-		if (!member) {
-			console.error("Le membre n'a pas été trouvé dans le serveur");
-			return;
-		}
+			const member = newState.guild.members.cache.get(newState.id);
+			if (!member) {
+				console.error("Le membre n'a pas été trouvé dans le serveur");
+				return;
+			}
 
-		const handlePromiseRejection = (promise: Promise<void>): void => {
-			promise.catch((err) => {
-				console.log(
-					"Une erreur a été rencontrée lors de l'assignation du rôle :"
-				);
-				console.error(err);
-			});
-		};
+			const handlePromiseRejection = (promise: Promise<void>): void => {
+				promise.catch((err) => {
+					console.log(
+						"Une erreur a été rencontrée lors de l'assignation du rôle :"
+					);
+					console.error(err);
+				});
+			};
 
-		for (const rule of config.voiceAutoroleSettings.rules) {
-			if (newState.channelId === null && oldState.channelId !== null) {
-				// Member left a voice channel
-				handlePromiseRejection(setRole(newState.guild, member, false, rule.role));
-			} else if (newState.channelId !== null && oldState.channelId === null) {
-				// Member joined a voice channel
-				handlePromiseRejection(
-					setRole(
-						newState.guild,
-						member,
-						newState.channelId === rule.channel,
-						rule.role
-					)
-				);
-			} else if (newState.channelId !== null && oldState.channelId !== null) {
-				// Member switched voice channels
-				handlePromiseRejection(
-					setRole(
-						newState.guild,
-						member,
-						newState.channelId === rule.channel,
-						rule.role
-					)
-				);
+			for (const { channel, role } of config.voiceAutoroleSettings.rules) {
+				if (newState.channelId === null && oldState.channelId !== null) {
+					// Member left a voice channel
+					handlePromiseRejection(setRole(newState.guild, member, false, role));
+				} else if (newState.channelId !== null && oldState.channelId === null) {
+					// Member joined a voice channel
+					handlePromiseRejection(
+						setRole(
+							newState.guild,
+							member,
+							newState.channelId === channel,
+							role
+						)
+					);
+				} else if (newState.channelId !== null && oldState.channelId !== null) {
+					// Member switched voice channels
+					handlePromiseRejection(
+						setRole(
+							newState.guild,
+							member,
+							newState.channelId === channel,
+							role
+						)
+					);
+				}
 			}
 		}
-	});
+	);
 };

@@ -26,7 +26,7 @@
 
 */
 
-import DATA from "../../datasets/wikipedia-languages.json";
+import DATA from "../../datasets/wikipedia-languages.json" assert { type: "json" };
 
 export type WikiLanguage = {
 	lang: string;

@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import type { Command } from "./command.js";
 
-import lang from "../../lang/commands.json";
+import lang from "../../lang/commands.json" assert { type: "json" };
 
 /*import { DiscordLimits } from "../constants/index.js";
 import wiki, { type Link } from "wikijs";
@@ -51,21 +51,28 @@ content.forEach((elem: any) => {
 
 export const about: Command = {
 	name: "duguesclin",
+	nameLocalizations: lang.about.nameLocalizations,
 	description: "Returns the Wikipedia page of the famed Bertrand du Guesclin",
+	descriptionLocalizations: lang.about.descriptionLocalizations,
 	type: ApplicationCommandType.ChatInput,
 	dmPermission: true,
 	options: [
 		{
 			name: "language",
+			nameLocalizations: lang.about.options.language.nameLocalizations,
+			description: "Your language of choice",
+			descriptionLocalizations:
+				lang.about.options.language.descriptionLocalizations,
 			type: ApplicationCommandOptionType.String,
-			description: "Your language of preference",
 			required: false,
 			autocomplete: true,
 		},
 		{
 			name: "article",
-			type: ApplicationCommandOptionType.String,
+			nameLocalizations: lang.about.options.article.nameLocalizations,
 			description: "The part of the Wikipedia article to show",
+			type: ApplicationCommandOptionType.String,
+			descriptionLocalizations: lang.about.options.article.descriptionLocalizations,
 			required: false,
 			choices: [
 				{

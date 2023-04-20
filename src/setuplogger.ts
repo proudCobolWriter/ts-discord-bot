@@ -1,84 +1,71 @@
 // Retrieving dependencies
 
 import { format, transports, createLogger } from "winston";
+import "winston-daily-rotate-file";
 
-// Setting up the logger
+const { uncolorize, colorize, timestamp, combine, printf, label, errors, splat } = format;
 
-const logFormat = format.printf(
-	(info) => `${info.level}: ${info.timestamp} [LOGS-DU-BOT]: ${info.message}`
-);
-const isProductionEnv =
-	process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production";
+// Format //
 
-if (isProductionEnv) {
-	const logger = createLogger({
-		defaultMeta: { service: "user-service" },
-		format: format.combine(
-			format.timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }),
-			format.metadata({ fillExcept: ["message", "level", "timestamp", "label"] }),
-			logFormat
-		),
-		transports: [
-			new transports.Console({
-				format: format.colorize(),
-			}),
-			new transports.File({
-				filename: "./logs/error.log",
-				//format: format.combine(format.json()),
-				level: "error",
-			}),
-			new transports.File({
-				filename: "./logs/combined.log",
-				//format: format.combine(format.json()),
-			}),
-		],
-		exitOnError: false,
-	});
+const isProductionEnv = process.env.NODE_ENV === "production";
+const logFormat = printf(({ level, label, timestamp, message, stack }) => {
+	const content =
+		typeof message === "object" ? JSON.stringify(message, null, 4) : message;
 
-	console.log = logger.info.bind(logger);
-	console.error = logger.error.bind(logger);
-}
+	return `[BOT-${label}] ${level}: ${timestamp}:${import.meta.url} ${stack || content}`;
+});
 
-/*console.log = logger.log;
-console.error = logger.error;*/
+// Transports //
 
-/*if (
-	typeof process.env.NODE_ENV === "string" &&
-	process.env.NODE_ENV.trim() === "production"
-) {
-	const logger = winston.createLogger({
-		defaultMeta: { service: "user-service" },
-		exitOnError: false,
-		transports: [
-			new winston.transports.Console({
-				format: format.combine(
-					format.colorize(),
-					() => {}
-				)
-			}),
-			new winston.transports.File({ filename: "./logs/combined.log" }),
-		],
-		format: winston.format.combine(
-			winston.format.timestamp({
-				format: "MMM-DD-YYYY HH:mm:ss",
-			}),
-			winston.format.colorize(),
-			winston.format.printf(
-				({ level, message, timestamp, stack }) => {
-					const content = typeof message === "object" ? message : message
+const combinedConsoleTransport = new transports.Console();
 
-					return `${level}: [LOGS-DU-BOT]: ${timestamp}: ${stack || message}`
-				}
-			)
-		),
-	});
+const errorFileRotateTransport = new transports.DailyRotateFile({
+	level: "error",
+	format: uncolorize(),
+	filename: `./logs/error/%DATE%.log`,
+	datePattern: "YYYY-MM-DD",
+	maxFiles: "50d",
+});
 
-	console.log = (d) => {
-		logger.info(d);
-	};
+const combinedFileRotateTransport = new transports.DailyRotateFile({
+	format: uncolorize(),
+	filename: `./logs/combined/%DATE%.log`,
+	datePattern: "YYYY-MM-DD",
+	maxFiles: "50d",
+});
 
-	console.error = (d) => {
-		logger.error(new Error(d));
-	};
-}
+// Creating the logger instance //
+
+const logger = createLogger({
+	level: "debug",
+	defaultMeta: { service: "user-service" },
+	format: combine(
+		colorize(),
+		label({ label: isProductionEnv ? "PROD" : "DEV" }),
+		timestamp({ format: "MMM-DD-YYYY (HH:mm:ss)" }),
+		splat(),
+		errors({ stack: true }),
+		logFormat
+	),
+	transports: [
+		combinedConsoleTransport,
+		errorFileRotateTransport,
+		combinedFileRotateTransport,
+	],
+	exitOnError: false,
+});
+
+/*
+	for (const level of Object.keys(logger.levels)) {
+		if (Object.hasOwn(console, level)) {
+			Object.defineProperty(console, level, (logger as any)[level].bind(logger));
+		}
+	}
 */
+
+console.log = logger[isProductionEnv ? "info" : "debug"].bind(logger);
+console.warn = logger.warn.bind(logger);
+console.error = logger.error.bind(logger);
+console.debug = logger.debug.bind(logger);
+
+export default logger;

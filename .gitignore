@@ -1,6 +1,7 @@
 # Folders
 
 node_modules/
+cache/
 dist/
 logs/
 
@@ -34,6 +35,7 @@ lerna-debug.log*
 # Other
 
 notes.txt
+.cache
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

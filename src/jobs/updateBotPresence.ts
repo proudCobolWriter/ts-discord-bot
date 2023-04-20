@@ -21,7 +21,7 @@ export class UpdateBotPresence implements Job {
 		this.client = client;
 	}
 
-	public async run() {
+	public async run(): Promise<void> {
 		if (!enabled || !this.client.isReady() || !this.client.user) return;
 
 		const currentPresenceInfo = JSON.parse(

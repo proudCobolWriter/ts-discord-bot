@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
-		"target": "ES2022",
-		"module": "ES2022",
+		"target": "ESNext",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"outDir": "./dist",
@@ -16,5 +16,5 @@
 		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["./**/*.ts"],
-	"exclude": ["./node_modules"]
+	"exclude": ["./node_modules/"]
 }

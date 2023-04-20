@@ -19,7 +19,7 @@ export class RolePurger implements Job {
 		this.client = client;
 	}
 
-	public async run() {
+	public async run(): Promise<void> {
 		if (!enabled || !this.client.isReady() || !this.client.user) return;
 
 		for (const rule of config.voiceAutoroleSettings.rules) {

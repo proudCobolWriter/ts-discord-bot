@@ -1,17 +1,18 @@
-import type { ConfigData } from "./configTypes";
-
-export default <ConfigData>{
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+const config: import("./configTypes").ConfigData = {
 	welcomeMessageSettings: {
 		enable: true,
 		messages: [
 			{
-				embeds: [
-					{
-						color: 0xed4245,
-						description:
-							"Bonjour %tag_user%, bienvenue au **Cercle Richelieu** !\n\nPour accéder au reste du serveur, vous devez passer l’entretien d’admission.\n🎙️ *L'entretien se passe uniquement en vocal.*\n\n🗓️ *Veuillez indiquer dans ce salon vos disponibilités pour cet entretien.*\n\nEn attendant, je vous encourage à consulter notre #𝐂𝐇𝐀𝐑𝐓𝐄",
-					},
-				],
+				message: {
+					embeds: [
+						{
+							color: 0xed4245,
+							description:
+								"Bonjour %tag_user%, bienvenue au **Cercle Richelieu** !\n\nPour accéder au reste du serveur, vous devez passer l’entretien d’admission.\n🎙️ *L'entretien se passe uniquement en vocal.*\n\n🗓️ *Veuillez indiquer dans ce salon vos disponibilités pour cet entretien.*\n\nEn attendant, je vous encourage à consulter notre #𝐂𝐇𝐀𝐑𝐓𝐄",
+						},
+					],
+				},
 				guild: "778278393807503364",
 				channel: "778278394299285516",
 				typingDuration: 3,
@@ -33,7 +34,23 @@ export default <ConfigData>{
 			},
 		],
 		purgeInterval: {
-			minutes: 15,
+			minutes: 5,
+		},
+	},
+	notificationsSettings: {
+		enable: true,
+		youtubeRules: [
+			{
+				message: {
+					content:
+						"%author% vient juste de poster une vidéo ! Allez la voir et partagez pour nous soutenir ! :CercleRichelieu: @everyone\n%link%",
+				},
+				youtubeChannel: "UCBm6S_t8xz00JoSGbqD5Zaw",
+				discordChannel: "778278394299285516",
+			},
+		],
+		queryInterval: {
+			seconds: 5,
 		},
 	},
 	presenceSettings: {
@@ -80,7 +97,10 @@ export default <ConfigData>{
 			},
 		],
 		cycleInterval: {
-			minutes: 5,
+			minutes: 2,
+			seconds: 30,
 		},
 	},
 };
+
+export default config;

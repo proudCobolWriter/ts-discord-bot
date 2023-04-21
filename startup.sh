@@ -1,3 +1,5 @@
+cd ./ts-discord-bot/
+
 # Make sure the .env file exists
 
 ENV_FILE=.env

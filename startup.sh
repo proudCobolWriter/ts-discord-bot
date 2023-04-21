@@ -4,6 +4,7 @@ ENV_FILE=.env
 CONFIG_FILE=config.ts
 DEFAULT_CONFIG_FILE=config-default.ts
 RESTART_DURATION_SECS=5
+RUN_SCRIPT=build
 
 shopt -s expand_aliases
 alias displaycontent="cat $ENV_FILE"
@@ -52,7 +53,19 @@ npm outdated
 
 base64 -d <<<"CiMgICAgICBfX19fX18gICAgICBfXyAgICAgICAgICAgICBfXyAgXyAgICAgICAgICAgCiMgICAgIC8gX19fXy8gIF9fXy9fLyBfX19fX19fICBfXy8gL18oXylfX18gIF9fX18gCiMgICAgLyBfXy8gfCB8L18vIF8gXC8gX19fLyAvIC8gLyBfXy8gLyBfXyBcLyBfXyBcCiMgICAvIC9fX19fPiAgPC8gIF9fLyAvX18vIC9fLyAvIC9fLyAvIC9fLyAvIC8gLyAvCiMgIC9fX19fXy9fL3xffFxfX18vXF9fXy9cX18sXy9cX18vXy9cX19fXy9fLyAvXy8gCiMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCg==" | gunzip -cf
 
-until NODE_OPTIONS=--no-warnings npm run start:build; do
+read -t 5 -r -p "# Déployer les commandes ? [o/N] " response
+case "$response" in
+    [oO][uU][iI]|[oO]) 
+        RUN_SCRIPT=deploy
+        ;;
+    *)
+        if [ -z "$response" ]; then
+            echo "non"
+        fi
+        ;;
+esac
+
+until NODE_OPTIONS=--no-warnings npm run start:"$RUN_SCRIPT"; do
     echo -e "Le processus s'est fermé avec le code de sortie $?." >&2
     start="$(($(date +%s) + $RESTART_DURATION_SECS))"
     while [ "$start" -ge `date +%s` ]; do

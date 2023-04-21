@@ -1,3 +1,4 @@
+#!/bin/bash
 cd ./ts-discord-bot/
 
 # Make sure the .env file exists

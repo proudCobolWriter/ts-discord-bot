@@ -42,7 +42,6 @@ TOKEN <- The token of the Discord bot
 ### TODO:
 - [ ] Release a few starter commands such as Wikipedia article search
 - [ ] Include the filename in stack-free logs
-- [ ] Auto restart
 
 <br>
 

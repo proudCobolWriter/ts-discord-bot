@@ -1,6 +1,6 @@
 {
 	"env": {
-		"NODE_ENV": "production"
+		"NODE_ENV": "development"
 	},
 	"ext": "ts",
 	"execMap": {

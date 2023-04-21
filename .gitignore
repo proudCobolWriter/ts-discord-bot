@@ -1,6 +1,7 @@
 # Folders
 
 node_modules/
+untracked/
 cache/
 dist/
 logs/
@@ -34,6 +35,7 @@ lerna-debug.log*
 
 # Other
 
+config.ts
 notes.txt
 .cache
 

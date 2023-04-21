@@ -9,7 +9,7 @@
 		"start": "cross-env-shell NODE_ENV=development ts-node-esm ./src/main.ts",
 		"start:build": "npm run start:transpile",
 		"start:deploy": "npm run start:transpile -- --deploy",
-		"start:transpile": "tsc --build && cross-env-shell NODE_ENV=development NODE_OPTIONS=--no-warnings node ./dist/src/main.js",
+		"start:transpile": "tsc --build && cross-env-shell NODE_ENV=development node ./dist/src/main.js",
 		"lint": "eslint . --ext .ts",
 		"prettify:check": "prettier --check .",
 		"prettify:fix": "prettier --write .",

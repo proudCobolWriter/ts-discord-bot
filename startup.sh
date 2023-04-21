@@ -34,8 +34,8 @@ fi
 
 printf "# Synchronisation des fichiers avec le \e[0;92mrépertoire Git\e[0m\n"
 
-# git reset --hard
-# git pull
+git reset --hard
+git pull
 
 # Install node_modules in case it is missing
 

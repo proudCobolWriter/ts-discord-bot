@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 const config: import("./configTypes").ConfigData = {
 	welcomeMessageSettings: {
-		enable: true,
+		enable: false,
 		messages: [
 			{
 				message: {
@@ -40,7 +40,7 @@ const config: import("./configTypes").ConfigData = {
 		},
 	},
 	notificationSettings: {
-		enable: true,
+		enable: false,
 		youtubeRules: [
 			{
 				message: {
@@ -56,7 +56,7 @@ const config: import("./configTypes").ConfigData = {
 		},
 	},
 	presenceSettings: {
-		enable: true,
+		enable: false,
 		presences: [
 			{
 				activities: [

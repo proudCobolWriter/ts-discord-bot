@@ -38,6 +38,7 @@ fi
 
 if [ ! -f "$CONFIG_FILE" ]; then
     cp "$DEFAULT_CONFIG_FILE" "$CONFIG_FILE"
+    sed "1d" "$CONFIG_FILE" > tmpfile; mv tmpfile "$CONFIG_FILE"
     printf "\n# Le fichier $CONFIG_FILE \e[0;102ma été créé\e[0m !\n"
 fi
 
@@ -45,8 +46,8 @@ fi
 
 printf "# Synchronisation des fichiers avec le \e[0;92mrépertoire Git\e[0m\n"
 
-# git reset --hard
-# git pull
+git reset --hard
+git pull
 
 # Install node_modules in case it is missing
 

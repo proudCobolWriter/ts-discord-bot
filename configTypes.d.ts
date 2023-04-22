@@ -33,8 +33,8 @@ export type WelcomeMessage = {
 };
 
 export type AutoroleRule = {
-	channel: Snowflake;
-	role: Snowflake;
+	channels: Snowflake[];
+	roles: Snowflake[];
 	guild: Snowflake;
 };
 

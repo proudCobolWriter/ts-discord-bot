@@ -59,30 +59,38 @@ export default (client: Client): void => {
 				});
 			};
 
-			for (const { channel, role } of config.voiceAutoroleSettings.rules) {
+			for (const { channels, roles } of config.voiceAutoroleSettings.rules) {
 				if (newState.channelId === null && oldState.channelId !== null) {
 					// Member left a voice channel
-					handlePromiseRejection(setRole(newState.guild, member, false, role));
+					for (const role of roles) {
+						handlePromiseRejection(
+							setRole(newState.guild, member, false, role)
+						);
+					}
 				} else if (newState.channelId !== null && oldState.channelId === null) {
 					// Member joined a voice channel
-					handlePromiseRejection(
-						setRole(
-							newState.guild,
-							member,
-							newState.channelId === channel,
-							role
-						)
-					);
+					for (const role of roles) {
+						handlePromiseRejection(
+							setRole(
+								newState.guild,
+								member,
+								channels.includes(newState.channelId),
+								role
+							)
+						);
+					}
 				} else if (newState.channelId !== null && oldState.channelId !== null) {
 					// Member switched voice channels
-					handlePromiseRejection(
-						setRole(
-							newState.guild,
-							member,
-							newState.channelId === channel,
-							role
-						)
-					);
+					for (const role of roles) {
+						handlePromiseRejection(
+							setRole(
+								newState.guild,
+								member,
+								channels.includes(newState.channelId),
+								role
+							)
+						);
+					}
 				}
 			}
 		}

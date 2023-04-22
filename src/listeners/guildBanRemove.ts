@@ -16,7 +16,13 @@ const settings = config.moderationLogsSettings;
 
 export default (client: Client): void => {
 	client.on(Events.GuildBanRemove, async (ban): Promise<void> => {
-		if (!settings.enable || !settings.ban || ban.user.bot) return;
+		if (
+			!settings.enable ||
+			!settings.ban ||
+			!settings.ban.includePardon ||
+			ban.user.bot
+		)
+			return;
 
 		const { guild, channels } = settings.ban;
 		if (guild !== ban.guild.id) return;

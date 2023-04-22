@@ -1,10 +1,11 @@
 # Folders
 
 node_modules/
+untracked/
+cache/
 dist/
 logs/
 
-.git/
 .npm/
 .vscode/
 

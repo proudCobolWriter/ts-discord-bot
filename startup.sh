@@ -2,10 +2,10 @@
 CUR_DIR=$(pwd)
 BOT_FOLDER=ts-discord-bot
 
-# if [[ ! "$CUR_DIR" == *"$BOT_FOLDER"* ]]; then
-    # cd "./$BOT_FOLDER/"
-    # echo "# Dossier changé à ./$BOT_FOLDER/"
-# fi
+if [[ ! "$CUR_DIR" == *"$BOT_FOLDER"* ]]; then
+    cd "./$BOT_FOLDER/"
+    echo "# Dossier changé à ./$BOT_FOLDER/"
+fi
 
 cd ./ts-discord-bot/
 
@@ -33,6 +33,7 @@ if [ ! -f "$ENV_FILE" ]; then
     printf "# Le fichier $ENV_FILE \e[0;102ma été créé\e[0m !\n"
     sleep 1
     printf "# Récapitulatif $ENV_FILE :\n"
+    sleep 1
     displaycontent
 fi
 
@@ -45,8 +46,8 @@ fi
 
 printf "# Synchronisation des fichiers avec le \e[0;92mrépertoire Git\e[0m\n"
 
-git reset --hard
-git pull
+# git reset --hard
+# git pull
 
 # Install node_modules in case it is missing
 

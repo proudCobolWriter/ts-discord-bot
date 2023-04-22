@@ -53,18 +53,26 @@ const logger = createLogger({
 	exitOnError: false,
 });
 
-/*
-	for (const level of Object.keys(logger.levels)) {
-		if (Object.hasOwn(console, level)) {
-			Object.defineProperty(console, level, (logger as any)[level].bind(logger));
-		}
-	}
-*/
-
 const processLog = (level: string, [...data]) => {
 	const args = data.slice();
 	const str = args
-		.map((x) => (x instanceof Object ? JSON.stringify(x, null, 4) : x))
+		.map((x) => {
+			if (x instanceof Object) {
+				const prettyPrintError = (error: Error): string =>
+					`${error.name} > ${error.message}\n${
+						error.cause
+							? typeof error.cause === "string"
+								? "cause: " + error.cause
+								: "cause: " +
+								  prettyPrintError((error as { cause: Error }).cause)
+							: error.stack
+					}`;
+
+				if (x instanceof Error) return prettyPrintError(x);
+				return JSON.stringify(x, null, 4);
+			}
+			return x;
+		})
 		.join(" ");
 
 	logger.log.apply(logger, [level, str]);

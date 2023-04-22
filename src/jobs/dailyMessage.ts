@@ -42,9 +42,7 @@ export class DailyMessage implements Job {
 
 	private cacher: PersistentCacher;
 
-	constructor(private client: Client) {
-		this.cacher = DailyMessage.createCacher();
-
+	private updateCache() {
 		const cache = this.cacher.get(CACHE_ENTRY);
 		this.lastDOYMessageSent = parseInt(cache) || undefined;
 
@@ -52,7 +50,13 @@ export class DailyMessage implements Job {
 			this.lastDOYMessageSent = undefined;
 	}
 
+	constructor(private client: Client) {
+		this.cacher = DailyMessage.createCacher();
+	}
+
 	public async run(): Promise<void> {
+		this.updateCache();
+
 		const now = new Date();
 
 		const nowUTC = new Date(

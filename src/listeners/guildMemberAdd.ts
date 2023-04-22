@@ -22,10 +22,10 @@ export default (client: Client): void => {
 		const guild = client.guilds.cache.get(welcomeMessage.guild);
 		if (!guild) return;
 
-		const channel = guild.channels.cache.get(welcomeMessage.channel);
-		if (!channel || channel.type !== ChannelType.GuildText) return;
-
 		try {
+			const channel = await guild.channels.fetch(welcomeMessage.channel);
+			if (!channel || channel.type !== ChannelType.GuildText) return;
+
 			if (welcomeMessage.typingDuration && welcomeMessage.typingDuration > 0)
 				await Promise.all([
 					channel.sendTyping(),

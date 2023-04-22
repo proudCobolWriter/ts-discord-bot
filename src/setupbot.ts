@@ -17,7 +17,8 @@ const intents = new IntentsBitField();
 intents.add(
 	IntentsBitField.Flags.GuildVoiceStates,
 	IntentsBitField.Flags.Guilds,
-	IntentsBitField.Flags.GuildMembers
+	IntentsBitField.Flags.GuildMembers,
+	IntentsBitField.Flags.MessageContent
 );
 
 // Setting up the bot

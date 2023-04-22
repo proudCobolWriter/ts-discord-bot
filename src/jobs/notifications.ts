@@ -68,14 +68,16 @@ export class Notifications implements Job {
 
 				try {
 					const cache = JSON.parse(this.cacher.get(entryName));
+					console.log("cache : ", cache);
 					if (cache.items[0].link === latestVideo.link) continue;
 				} catch (err) {
 					/* the cache content is either invalid or empty */
 				}
 
-				const alreadySent = latestMessages.some((msg) =>
-					JSON.stringify(msg).includes(latestVideo.link || "")
-				);
+				const alreadySent = latestMessages.some((msg) => {
+					console.log(msg.content);
+					return JSON.stringify(msg).includes(latestVideo.link || "");
+				});
 
 				if (!alreadySent) {
 					/*await channel.send(

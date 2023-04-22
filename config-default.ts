@@ -26,6 +26,19 @@ const config: import("./configTypes").ConfigData = {
 			minutes: 15,
 		},
 	},
+	dailyMessageSettings: {
+		enable: false,
+		messageList: [],
+		usersAffected: [],
+		checkInterval: {
+			seconds: 30,
+		},
+		UTCtime: {
+			hour: 12,
+			minute: 0,
+			second: 0,
+		},
+	},
 	notificationSettings: {
 		enable: true,
 		youtubeRules: [

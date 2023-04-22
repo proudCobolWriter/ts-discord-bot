@@ -1,6 +1,15 @@
 // default config //
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 const config: import("./configTypes").ConfigData = {
+	moderationLogsSettings: {
+		enable: false,
+		language: "en",
+		ban: {
+			channels: ["snowflake"],
+			guild: "snowflake",
+			includePardon: true,
+		},
+	},
 	welcomeMessageSettings: {
 		enable: false,
 		messages: [

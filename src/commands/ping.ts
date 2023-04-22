@@ -1,6 +1,6 @@
 import { type CommandInteraction, type Client, ApplicationCommandType } from "discord.js";
-import type { Command } from "./command.js";
 
+import type { Command } from "./command.js";
 import lang from "../../lang/commands.json" assert { type: "json" };
 
 export const ping: Command = {

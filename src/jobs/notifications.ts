@@ -6,19 +6,7 @@ import type { Job, SimpleIntervalSchedule } from "./index.js";
 import PersistentCacher from "../utils/persistentCacher.js";
 import { URLs } from "../constants/urls.js";
 import config from "../../config.js";
-
-const format = (str: string, table: { [key: string]: string }) => {
-	const re = new RegExp(
-		Object.keys(table)
-			.map((value) => "%" + value + "%")
-			.join("|"),
-		"gi"
-	);
-	return str.replace(
-		re,
-		(matched: string) => table[matched.substring(1, matched.length - 1)]
-	);
-};
+import { format } from "../utils/sharedFunctions.js";
 
 export class Notifications implements Job {
 	static createParser(

@@ -1,0 +1,70 @@
+{
+	"moderationLogs": {
+		"ban": {
+			"en": {
+				"extraText": "no reason given",
+				"message": {
+					"embeds": [
+						{
+							"title": "Ban | case %ban_count%",
+							"description": "**Offender:** %user_tag% %user_mention%\n**Reason:** %ban_reason%\n**Responsible moderator:** %mod_tag% %mod_mention%",
+							"timestamp": "%iso_string%",
+							"footer": {
+								"text": "ID: %user_id%"
+							},
+							"color": -101
+						}
+					]
+				}
+			},
+			"fr": {
+				"extraText": "pas de raison fournie",
+				"message": {
+					"embeds": [
+						{
+							"title": "Bannissement n°%ban_count%",
+							"description": "**Saligaud:** %user_tag% %user_mention%\n**Raison:** %ban_reason%\n**Modérateur:** %mod_tag% %mod_mention%",
+							"timestamp": "%iso_string%",
+							"footer": {
+								"text": "ID: %user_id%"
+							},
+							"color": -101
+						}
+					]
+				}
+			}
+		},
+		"unban": {
+			"en": {
+				"message": {
+					"embeds": [
+						{
+							"title": "Unban | case %unban_count%",
+							"description": "**Offender:** %user_tag% %user_mention%\n**Responsible moderator:** %mod_tag% %mod_mention%",
+							"timestamp": "%iso_string%",
+							"footer": {
+								"text": "ID: %user_id%"
+							},
+							"color": -101
+						}
+					]
+				}
+			},
+			"fr": {
+				"message": {
+					"embeds": [
+						{
+							"title": "Débannissement n°%unban_count%",
+							"description": "**Saligaud:** %user_tag% %user_mention%\n**Modérateur:** %mod_tag% %mod_mention%",
+							"timestamp": "%iso_string%",
+							"footer": {
+								"text": "ID: %user_id%"
+							},
+							"color": -101
+						}
+					]
+				}
+			}
+		}
+	}
+}

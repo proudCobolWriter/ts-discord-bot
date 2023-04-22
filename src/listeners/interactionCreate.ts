@@ -7,6 +7,7 @@ import {
 	Events,
 } from "discord.js";
 import type { RateLimiter } from "discord.js-rate-limiter";
+
 import Commands from "../commands/command.js";
 
 const handleInteraction = async (

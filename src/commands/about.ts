@@ -5,8 +5,8 @@ import {
 	ApplicationCommandType,
 	ApplicationCommandOptionType,
 } from "discord.js";
-import type { Command } from "./command.js";
 
+import type { Command } from "./command.js";
 import lang from "../../lang/commands.json" assert { type: "json" };
 
 /*import { DiscordLimits } from "../constants/index.js";

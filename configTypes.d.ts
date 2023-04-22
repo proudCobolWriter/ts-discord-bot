@@ -26,42 +26,60 @@ export type DisableableSetting = {
 export type IntervalSchedule = Omit<SimpleIntervalSchedule, "runImmediately">;
 
 export type WelcomeMessage = {
-	message: BaseMessageOptions;
-	guild: Snowflake;
-	channel: Snowflake;
-	typingDuration?: 3;
+	readonly message: BaseMessageOptions;
+	readonly guild: Snowflake;
+	readonly channel: Snowflake;
+	readonly typingDuration?: 3;
 };
 
 export type AutoroleRule = {
-	channels: Snowflake[];
-	roles: Snowflake[];
-	guild: Snowflake;
+	readonly channels: Snowflake[];
+	readonly roles: Snowflake[];
+	readonly guild: Snowflake;
 };
 
 export type UTCtime = {
-	hour: NumericRange<0, 24>;
-	minute?: NumericRange<0, 60>;
-	second?: NumericRange<0, 60>;
+	readonly hour: NumericRange<0, 24>;
+	readonly minute?: NumericRange<0, 60>;
+	readonly second?: NumericRange<0, 60>;
 };
 
 export type YoutubeRule = {
-	message: BaseMessageOptions;
-	youtubeChannel: string;
-	discordChannel: Snowflake;
+	readonly message: BaseMessageOptions;
+	readonly youtubeChannel: string;
+	readonly discordChannel: Snowflake;
 };
 
 export type YoutubeNotificationSettings = {
-	youtubeRules?: Array<YoutubeRule>;
+	readonly youtubeRules?: Array<YoutubeRule>;
 };
 
 export interface PresenceDataExtra extends PresenceData {
-	retrieveGuildInfo?: {
+	readonly retrieveGuildInfo?: {
 		guild: Snowflake;
 		entries: Array<"%member_count%" | "%channel_count%" | "%role_count%">;
 	};
 }
 
 //  Interfaces  //
+export interface ModerationLogsSettings extends DisableableSetting {
+	readonly language?: string;
+	readonly ban?: {
+		readonly channels: Snowflake[];
+		readonly guild: Snowflake;
+		readonly includePardon?: boolean;
+	};
+	readonly timeout?: {
+		readonly channels: Snowflake[];
+		readonly guild: Snowflake;
+		readonly includePardon?: boolean;
+	};
+	readonly kick?: {
+		readonly channels: Snowflake[];
+		readonly guild: Snowflake;
+	};
+}
+
 export interface WelcomeMessageSettings extends DisableableSetting {
 	messages: Array<WelcomeMessage>;
 }
@@ -89,10 +107,12 @@ export interface PresenceSettings extends DisableableSetting {
 	cycleInterval: IntervalSchedule;
 }
 
+// Main export //
 export interface ConfigData {
-	welcomeMessageSettings: WelcomeMessageSettings;
-	voiceAutoroleSettings: VoiceAutoroleSettings;
-	dailyMessageSettings: DailyMessageSettings;
-	notificationSettings: NotificationSettings;
-	presenceSettings: PresenceSettings;
+	moderationLogsSettings: Readonly<ModerationLogsSettings>;
+	welcomeMessageSettings: Readonly<WelcomeMessageSettings>;
+	voiceAutoroleSettings: Readonly<VoiceAutoroleSettings>;
+	dailyMessageSettings: Readonly<DailyMessageSettings>;
+	notificationSettings: Readonly<NotificationSettings>;
+	presenceSettings: Readonly<PresenceSettings>;
 }

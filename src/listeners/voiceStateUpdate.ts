@@ -17,7 +17,7 @@ const setRole = async (
 	member: GuildMember,
 	shouldHaveRole: boolean,
 	roleId: Snowflake
-) => {
+): Promise<void> => {
 	const hasRole = member.roles.cache.some((role) => role.id === roleId);
 	if (shouldHaveRole === hasRole)
 		// makes sure we don't needlessly add/remove the role from the user

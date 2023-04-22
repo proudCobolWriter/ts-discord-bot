@@ -2,10 +2,12 @@
 CUR_DIR=$(pwd)
 BOT_FOLDER=ts-discord-bot
 
-if [[ ! "$CUR_DIR" == *"$BOT_FOLDER"* ]]; then
-    cd "./$BOT_FOLDER/"
-    echo "# Dossier changé à ./$BOT_FOLDER/"
-fi
+echo "$CUR_DIR"
+
+# if [[ ! "$CUR_DIR" == *"$BOT_FOLDER"* ]]; then
+#     cd "./$BOT_FOLDER/"
+#     echo "# Dossier changé à ./$BOT_FOLDER/"
+# fi
 
 cd ./ts-discord-bot/
 

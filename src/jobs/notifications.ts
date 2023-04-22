@@ -34,8 +34,9 @@ export class Notifications implements Job {
 	public name = "Notification Monitor";
 	public settings: SimpleIntervalSchedule = {
 		runImmediately: false,
-		...config.notificationsSettings.queryInterval,
+		...config.notificationSettings.queryInterval,
 	};
+	public enabled = config.notificationSettings.enable;
 
 	private feedParser: Parser;
 	private cacher: PersistentCacher;
@@ -48,10 +49,8 @@ export class Notifications implements Job {
 	}
 
 	public async run(): Promise<void> {
-		if (!config.notificationsSettings.enable) return;
-
 		for (const { message, youtubeChannel, discordChannel } of config
-			.notificationsSettings.youtubeRules || []) {
+			.notificationSettings.youtubeRules || []) {
 			const feed = await this.feedParser.parseURL(
 				URLs.FEED_YOUTUBE + youtubeChannel
 			);
@@ -79,9 +78,9 @@ export class Notifications implements Job {
 				);
 
 				if (!alreadySent) {
-					await channel.send(
+					/*await channel.send(
 						JSON.parse(format(JSON.stringify(message), latestVideo))
-					);
+					);*/
 
 					console.log(`Notification YouTube ${feed.title} envoyée`);
 

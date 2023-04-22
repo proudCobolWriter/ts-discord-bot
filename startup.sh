@@ -1,5 +1,11 @@
 #!/bin/bash
-cd ./ts-discord-bot/
+CUR_DIR=$(pwd)
+BOT_FOLDER=ts-discord-bot
+
+if [[ ! "$CUR_DIR" == *"$BOT_FOLDER"* ]]; then
+    cd "./$BOT_FOLDER/"
+    echo "# Dossier changé à ./$BOT_FOLDER/"
+fi
 
 # Make sure the .env file exists
 

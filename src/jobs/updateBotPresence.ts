@@ -4,15 +4,14 @@ import { ChannelType, type Client } from "discord.js";
 
 import config from "../../config.js";
 
-const enabled =
-	config.presenceSettings.enable && config.presenceSettings.presences.length > 0;
-
 export class UpdateBotPresence implements Job {
 	public name = "Update Bot Presence";
 	public settings: SimpleIntervalSchedule = {
 		runImmediately: false,
 		...config.presenceSettings.cycleInterval,
 	};
+	public enabled =
+		config.presenceSettings.enable && config.presenceSettings.presences.length > 0;
 
 	private client: Client;
 	private presenceIndex = 0;
@@ -22,7 +21,7 @@ export class UpdateBotPresence implements Job {
 	}
 
 	public async run(): Promise<void> {
-		if (!enabled || !this.client.isReady() || !this.client.user) return;
+		if (!this.client.isReady() || !this.client.user) return;
 
 		const currentPresenceInfo = JSON.parse(
 			JSON.stringify(config.presenceSettings.presences[this.presenceIndex])

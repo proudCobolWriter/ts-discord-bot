@@ -3,8 +3,22 @@ import type { BaseMessageOptions, PresenceData, Snowflake } from "discord.js";
 
 // Type definitions //
 
+//   Generics //
+type NumericRange<
+	START extends number,
+	END extends number,
+	ARR extends unknown[] = [],
+	ACC extends number = never
+> = ARR["length"] extends END
+	? ACC | START | END
+	: NumericRange<
+			START,
+			END,
+			[...ARR, 1],
+			ARR[START] extends undefined ? ACC : ACC | ARR["length"]
+	  >;
+
 //	 Types	 //
-export type Setting = object;
 export type DisableableSetting = {
 	enable: boolean;
 };
@@ -22,6 +36,12 @@ export type AutoroleRule = {
 	channel: Snowflake;
 	role: Snowflake;
 	guild: Snowflake;
+};
+
+export type UTCtime = {
+	hour: NumericRange<0, 24>;
+	minute?: NumericRange<0, 60>;
+	second?: NumericRange<0, 60>;
 };
 
 export type YoutubeRule = {
@@ -51,6 +71,13 @@ export interface VoiceAutoroleSettings extends DisableableSetting {
 	purgeInterval: IntervalSchedule;
 }
 
+export interface DailyMessageSettings extends DisableableSetting {
+	messageList: BaseMessageOptions[];
+	usersAffected: Snowflake[];
+	checkInterval: IntervalSchedule;
+	UTCtime: UTCtime;
+}
+
 export interface NotificationSettings
 	extends DisableableSetting,
 		YoutubeNotificationSettings {
@@ -63,8 +90,9 @@ export interface PresenceSettings extends DisableableSetting {
 }
 
 export interface ConfigData {
-	welcomeMessageSettings: Setting & WelcomeMessageSettings;
-	voiceAutoroleSettings: Setting & VoiceAutoroleSettings;
-	notificationsSettings: Setting & NotificationSettings;
-	presenceSettings: Setting & PresenceSettings;
+	welcomeMessageSettings: WelcomeMessageSettings;
+	voiceAutoroleSettings: VoiceAutoroleSettings;
+	dailyMessageSettings: DailyMessageSettings;
+	notificationSettings: NotificationSettings;
+	presenceSettings: PresenceSettings;
 }

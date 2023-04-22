@@ -9,10 +9,16 @@ import { default as client } from "./setupbot.js";
 console.log("Instance de bot créée avec succès !");
 
 import { JobService } from "./services/index.js";
-import { UpdateBotPresence, Notifications, RolePurger } from "./jobs/index.js";
+import {
+	UpdateBotPresence,
+	Notifications,
+	RolePurger,
+	DailyMessage,
+} from "./jobs/index.js";
 
 const jobService = new JobService([
 	new UpdateBotPresence(client),
+	new DailyMessage(client),
 	new RolePurger(client),
 	new Notifications(client),
 ]);

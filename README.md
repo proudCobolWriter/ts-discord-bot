@@ -30,19 +30,15 @@ TOKEN <- The token of the Discord bot
 
 4. **Run** the shell script within ``ts-discord-bot`` :
 
-   * for **Windows** with **Git Bash** ⬇️
+   * for **Windows** with **Git Bash** and for **Linux/UNIX** systems[^1] ⬇️
    ```
    bash startup.sh
-   ```
-   * for **Linux/UNIX**[^1] ⬇️
-   ```
-   sh startup.sh
    ```
 
 ### TODO:
 - [ ] Release a few starter commands such as Wikipedia article search
-- [ ] Include the filename in stack-free logs
+- [ ] <s>Include the filename in stack-free logs</s>
 
 <br>
 
-[^1]: Both syntaxes (``bash`` and ``sh``) work on **Linux/UNIX** systems.
+[^1]: It is important not to run it with an explicit ``sh`` as that will the ``#!/bin/bash`` shebang.

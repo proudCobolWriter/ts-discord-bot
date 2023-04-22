@@ -8,6 +8,8 @@ export class JobService {
 
 	public start(): void {
 		for (const jobInfo of this.jobs) {
+			if (!jobInfo.enabled) continue;
+
 			const task = new AsyncTask(
 				jobInfo.name,
 				() => jobInfo.run(),

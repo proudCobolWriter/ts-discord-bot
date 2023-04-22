@@ -3,15 +3,15 @@ import type { Client } from "discord.js";
 
 import config from "../../config.js";
 
-const enabled =
-	config.voiceAutoroleSettings.enable && config.voiceAutoroleSettings.rules.length > 0;
-
 export class RolePurger implements Job {
 	public name = "Role Purger";
 	public settings: SimpleIntervalSchedule = {
 		runImmediately: false,
 		...config.voiceAutoroleSettings.purgeInterval,
 	};
+	public enabled =
+		config.voiceAutoroleSettings.enable &&
+		config.voiceAutoroleSettings.rules.length > 0;
 
 	private client: Client;
 
@@ -20,7 +20,7 @@ export class RolePurger implements Job {
 	}
 
 	public async run(): Promise<void> {
-		if (!enabled || !this.client.isReady() || !this.client.user) return;
+		if (!this.client.isReady() || !this.client.user) return;
 
 		for (const rule of config.voiceAutoroleSettings.rules) {
 			const guild = this.client.guilds.cache.get(rule.guild);

@@ -8,12 +8,10 @@ const { uncolorize, colorize, timestamp, combine, printf, label, errors, splat }
 // Format //
 
 const isProductionEnv = process.env.NODE_ENV === "production";
-const logFormat = printf(({ level, label, timestamp, message, stack }) => {
-	const content =
-		typeof message === "object" ? JSON.stringify(message, null, 4) : message;
-
-	return `[BOT-${label}] ${level}: ${timestamp}: ${stack || content}`;
-});
+const logFormat = printf(
+	({ level, label, timestamp, message, stack }) =>
+		`[BOT-${label}] ${level}: ${timestamp}: ${stack || message}`
+);
 
 // Transports //
 
@@ -63,9 +61,18 @@ const logger = createLogger({
 	}
 */
 
-console.log = logger[isProductionEnv ? "info" : "debug"].bind(logger);
-console.warn = logger.warn.bind(logger);
-console.error = logger.error.bind(logger);
-console.debug = logger.debug.bind(logger);
+const processLog = (level: string, [...data]) => {
+	const args = data.slice();
+	const str = args
+		.map((x) => (x instanceof Object ? JSON.stringify(x, null, 4) : x))
+		.join(" ");
+
+	logger.log.apply(logger, [level, str]);
+};
+
+console.log = (...data) => processLog(isProductionEnv ? "info" : "debug", data);
+console.warn = (...data) => processLog("warn", data);
+console.error = (...data) => processLog("error", data);
+console.debug = (...data) => processLog("debug", data);
 
 export default logger;

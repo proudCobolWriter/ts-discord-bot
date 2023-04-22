@@ -26,7 +26,7 @@ const config: import("./configTypes").ConfigData = {
 			minutes: 15,
 		},
 	},
-	notificationsSettings: {
+	notificationSettings: {
 		enable: true,
 		youtubeRules: [
 			{

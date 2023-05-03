@@ -14,25 +14,25 @@
 ## root **.env** variable(s)
 
 ```
-TOKEN <- The token of the Discord bot
+TOKEN=<the token of the Discord bot>
 ```
 
 ## Installation in 3 steps
 
 1. **Clone** the repo
    ```bash
-   git clone https://github.com/proudCobolWriter/ts-discord-bot.git
+   $ git clone https://github.com/proudCobolWriter/ts-discord-bot.git
    ```
 
 2. Make sure the ``TOKEN`` [**environment variable**](#root-env-variables) is specified (optional; you can skip to the last step)
 
-3. **C**hange **d**irectory to ``ts-discord-bot`` using the ``cd`` command
+2.1. **C**hange **d**irectory to ``ts-discord-bot`` using the ``cd`` command
 
-4. **Run** the shell script within ``ts-discord-bot`` :
+3. **Run** the shell script within ``ts-discord-bot`` :
 
    * for **Windows** with **Git Bash** and for **Linux/UNIX** systems[^1] ⬇️
    ```
-   bash startup.sh
+   $ bash startup.sh
    ```
 
 ### TODO:
@@ -42,4 +42,4 @@ TOKEN <- The token of the Discord bot
 
 <br>
 
-[^1]: It is important not to run it with an explicit ``sh`` as that will the ``#!/bin/bash`` shebang.
+[^1]: It is important not to run it with an explicit ``sh`` as that will ignore the top-level ``#!/bin/bash`` shebang.

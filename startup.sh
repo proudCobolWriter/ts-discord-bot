@@ -14,7 +14,8 @@ ENV_FILE=.env
 CONFIG_FILE=config.ts
 DEFAULT_CONFIG_FILE=config-default.ts
 RESTART_DURATION_SECS=5
-RUN_SCRIPT=build
+RUN_ARG=""
+CHANGED=false
 
 shopt -s expand_aliases
 alias displaycontent="cat $ENV_FILE"
@@ -42,6 +43,15 @@ if [ ! -f "$CONFIG_FILE" ]; then
     printf "\n# Le fichier $CONFIG_FILE \e[0;102ma été créé\e[0m !\n"
 fi
 
+# Typescript transpilation
+
+printf "# \e[1;31mTranspilation\e[0m en cours\n"
+
+if [[ $(git status -z | cut -z -b 2 | tr -d '[:space:]\000') ]]; then
+    CHANGED=true
+    npx tsc --build
+fi
+
 # Sync the files with the repo
 
 printf "# Synchronisation des fichiers avec le \e[0;92mrépertoire Git\e[0m\n"
@@ -53,7 +63,7 @@ git pull
 
 printf "# Installation des \e[1;96mdépendances\e[0m\n"
 
-npm install # -- production (not yet available for production)
+npm install
 
 # Print outdated packages
 
@@ -68,7 +78,7 @@ base64 -d <<<"CiMgICAgICBfX19fX18gICAgICBfXyAgICAgICAgICAgICBfXyAgXyAgICAgICAgIC
 read -t 5 -r -p "# Déployer les commandes ? [o/N] " response
 case "$response" in
     [oO][uU][iI]|[oO]) 
-        RUN_SCRIPT=deploy
+        RUN_ARG=--deploy
         ;;
     *)
         if [ -z "$response" ]; then
@@ -77,7 +87,7 @@ case "$response" in
         ;;
 esac
 
-until NODE_OPTIONS=--no-warnings npm run start:"$RUN_SCRIPT"; do
+until NODE_OPTIONS=--no-warnings NODE_ENV=production node ./dist/src/main.js "$RUN_ARG"; do
     echo -e "Le processus s'est fermé avec le code de sortie $?." >&2
     start="$(($(date +%s) + $RESTART_DURATION_SECS))"
     while [ "$start" -ge `date +%s` ]; do

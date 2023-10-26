@@ -4,7 +4,7 @@
 	},
 	"ext": "ts",
 	"execMap": {
-		"ts": "ts-node-esm"
+		"ts": "NODE_OPTIONS='--no-warnings' ts-node-esm"
 	},
 	"watch": ["./src/", "./config.ts", "./configTypes.d.ts", "./.env"],
 	"verbose": true,

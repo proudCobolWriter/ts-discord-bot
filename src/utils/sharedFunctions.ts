@@ -13,10 +13,7 @@ export const format = (str: string, table: { [key: string]: string }): string =>
 	);
 };
 
-export const randomHexColor = (): HexColorString => {
-	return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-};
+export const randomHexColor = (): HexColorString =>
+	`#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
-export const randomHexColorRawNumber = (): number => {
-	return Math.floor(Math.random() * 16777215);
-};
+export const randomHexColorRawNumber = (): number => Math.floor(Math.random() * 16777215);

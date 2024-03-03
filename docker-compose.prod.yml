@@ -1,0 +1,6 @@
+version: "3"
+services:
+  ts-discord-bot:
+    build:
+      target: production
+    command: node dist/src/main.js

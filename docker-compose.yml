@@ -1,0 +1,19 @@
+version: "3"
+services:
+  ts-discord-bot:
+    container_name: ts-discord-bot
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    environment:
+      - TOKEN
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+      - ts-discord-bot-data:/usr/local/apps/ts-discord-bot/
+    command: npm run dev
+    restart: unless-stopped
+
+volumes:
+  ts-discord-bot-data:

@@ -3,5 +3,13 @@
 	"useTabs": true,
 	"tabWidth": 4,
 	"singleQuote": false,
-	"printWidth": 90
+	"printWidth": 90,
+	"overrides": [
+		{
+		"files": ["*.yml", "*.ymal"],
+			"options": {
+				"tabWidth": 2
+			}
+		}
+	]
 }

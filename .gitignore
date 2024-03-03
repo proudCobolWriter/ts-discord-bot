@@ -7,7 +7,6 @@ dist/
 logs/
 
 .npm/
-.vscode/
 
 # Logs
 

@@ -1,3 +1,5 @@
+console.log("sdqd");
+
 import "dotenv/config.js";
 import "./setuplogger.js";
 import "./utils/validateEnv.js";

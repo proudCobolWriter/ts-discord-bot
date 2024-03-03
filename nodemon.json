@@ -6,7 +6,7 @@
 	"execMap": {
 		"ts": "NODE_OPTIONS='--no-warnings' ts-node-esm"
 	},
-	"watch": ["./src/", "./config.ts", "./configTypes.d.ts", "./.env"],
+	"watch": ["./src/**/*.ts", "./config.ts", "./configTypes.d.ts", "./.env"],
 	"verbose": true,
 	"signal": "SIGTERM",
 	"delay": 1000

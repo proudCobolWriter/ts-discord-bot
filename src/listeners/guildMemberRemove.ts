@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // WIP
 import { Events, type Client, ChannelType } from "discord.js";
 

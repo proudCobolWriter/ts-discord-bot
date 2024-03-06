@@ -7,6 +7,7 @@ import PersistentCacher from "../utils/persistentCacher.js";
 import { URLs } from "../constants/urls.js";
 import config from "../../config.js";
 import { format } from "../utils/sharedFunctions.js";
+import type { ExternalRule, YoutubeRule } from "../../configTypes.js";
 
 export class Notifications implements Job {
 	static createParser(
@@ -37,74 +38,26 @@ export class Notifications implements Job {
 	}
 
 	public async run(): Promise<void> {
-		for (const { message, youtubeChannel, discordChannel } of config
-			.notificationSettings.youtubeRules || []) {
-			const feed = await this.feedParser.parseURL(
-				URLs.FEED_YOUTUBE + youtubeChannel,
-			);
-
-			if (!feed || feed.items.length === 0) continue;
-
-			const latestVideo = feed.items[0];
-			const channel = this.client.channels.cache.get(discordChannel);
-			if (!channel || channel.type !== ChannelType.GuildText) continue;
-
-			const latestMessages = await channel.messages.fetch({ limit: 10 });
-
-			if (latestMessages) {
-				const entryName = "ytb-" + youtubeChannel;
-
-				try {
-					const cache = JSON.parse(this.cacher.get(entryName));
-					if (
-						cache.items[0].link === latestVideo.link ||
-						cache.items[0].title === latestVideo.title
-					)
-						continue;
-				} catch (err) {
-					/* the cache content is either invalid or empty */
-				}
-
-				const alreadySent = latestMessages.some(
-					(msg) =>
-						JSON.stringify(msg).includes(latestVideo.link || "") ||
-						JSON.stringify(msg).includes(latestVideo.title || ""),
-				);
-
-				if (!alreadySent) {
-					this.cacher.write(entryName, JSON.stringify(feed));
-
-					await channel.send(
-						JSON.parse(format(JSON.stringify(message), latestVideo)),
-					);
-
-					console.log(`Notification YouTube ${feed.title} envoyée`);
-				}
-			}
-		}
-
-		for (const { name, message, rssFeed, discordChannel } of config
-			.notificationSettings.externalRules || []) {
-			const feed = await this.feedParser.parseURL(rssFeed);
-
-			if (!feed || feed.items.length === 0) continue;
-
+		const runRSSParser = async (
+			ruleType: "YouTube" | "External",
+			entryName: string,
+			rule: YoutubeRule | ExternalRule,
+			feed: { [key: string]: string } & Parser.Output<{ [key: string]: string }>,
+		) => {
 			const latestItem = feed.items[0];
-			const channel = this.client.channels.cache.get(discordChannel);
-			if (!channel || channel.type !== ChannelType.GuildText) continue;
+			const channel = this.client.channels.cache.get(rule.discordChannel);
+			if (!channel || channel.type !== ChannelType.GuildText) return;
 
 			const latestMessages = await channel.messages.fetch({ limit: 10 });
 
 			if (latestMessages) {
-				const entryName = "rss-" + name;
-
 				try {
 					const cache = JSON.parse(this.cacher.get(entryName));
 					if (
 						cache.items[0].link === latestItem.link ||
 						cache.items[0].title === latestItem.title
 					)
-						continue;
+						return;
 				} catch (err) {
 					/* the cache content is either invalid or empty */
 				}
@@ -119,12 +72,30 @@ export class Notifications implements Job {
 					this.cacher.write(entryName, JSON.stringify(feed));
 
 					await channel.send(
-						JSON.parse(format(JSON.stringify(message), latestItem)),
+						JSON.parse(format(JSON.stringify(rule.message), latestItem)),
 					);
 
-					console.log(`Notification RSS ${feed.title} envoyée`);
+					console.log(
+						`Notification ${ruleType === "YouTube" ? ruleType : "RSS"} ${feed.title} envoyée`,
+					);
 				}
 			}
+		};
+
+		for (const rule of config.notificationSettings.youtubeRules || []) {
+			const feed = await this.feedParser.parseURL(
+				URLs.FEED_YOUTUBE + rule.youtubeChannel,
+			);
+
+			if (!feed || feed.items.length === 0) continue;
+			runRSSParser("YouTube", "ytb-" + rule.youtubeChannel, rule, feed);
+		}
+
+		for (const rule of config.notificationSettings.externalRules || []) {
+			const feed = await this.feedParser.parseURL(rule.rssFeed);
+
+			if (!feed || feed.items.length === 0) continue;
+			runRSSParser("YouTube", "rss-" + rule.name, rule, feed);
 		}
 	}
 }

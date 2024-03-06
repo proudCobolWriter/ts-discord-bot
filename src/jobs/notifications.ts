@@ -10,7 +10,7 @@ import { format } from "../utils/sharedFunctions.js";
 
 export class Notifications implements Job {
 	static createParser(
-		opts?: ParserOptions<{ [key: string]: unknown }, { [key: string]: unknown }>
+		opts?: ParserOptions<{ [key: string]: unknown }, { [key: string]: unknown }>,
 	) {
 		return new Parser(opts);
 	}
@@ -40,7 +40,7 @@ export class Notifications implements Job {
 		for (const { message, youtubeChannel, discordChannel } of config
 			.notificationSettings.youtubeRules || []) {
 			const feed = await this.feedParser.parseURL(
-				URLs.FEED_YOUTUBE + youtubeChannel
+				URLs.FEED_YOUTUBE + youtubeChannel,
 			);
 
 			if (!feed || feed.items.length === 0) continue;
@@ -56,27 +56,73 @@ export class Notifications implements Job {
 
 				try {
 					const cache = JSON.parse(this.cacher.get(entryName));
-					if (cache.items[0].link === latestVideo.link) continue;
+					if (
+						cache.items[0].link === latestVideo.link ||
+						cache.items[0].title === latestVideo.title
+					)
+						continue;
 				} catch (err) {
 					/* the cache content is either invalid or empty */
 				}
 
-				const alreadySent = latestMessages.some((msg) =>
-					JSON.stringify(msg).includes(latestVideo.link || "")
+				const alreadySent = latestMessages.some(
+					(msg) =>
+						JSON.stringify(msg).includes(latestVideo.link || "") ||
+						JSON.stringify(msg).includes(latestVideo.title || ""),
 				);
 
 				if (!alreadySent) {
+					this.cacher.write(entryName, JSON.stringify(feed));
+
 					await channel.send(
-						JSON.parse(format(JSON.stringify(message), latestVideo))
+						JSON.parse(format(JSON.stringify(message), latestVideo)),
 					);
 
 					console.log(`Notification YouTube ${feed.title} envoyée`);
+				}
+			}
+		}
 
-					try {
-						this.cacher.write(entryName, JSON.stringify(feed));
-					} catch (err) {
-						console.error(err);
-					}
+		for (const { name, message, rssFeed, discordChannel } of config
+			.notificationSettings.externalRules || []) {
+			const feed = await this.feedParser.parseURL(rssFeed);
+
+			if (!feed || feed.items.length === 0) continue;
+
+			const latestItem = feed.items[0];
+			const channel = this.client.channels.cache.get(discordChannel);
+			if (!channel || channel.type !== ChannelType.GuildText) continue;
+
+			const latestMessages = await channel.messages.fetch({ limit: 10 });
+
+			if (latestMessages) {
+				const entryName = "rss-" + name;
+
+				try {
+					const cache = JSON.parse(this.cacher.get(entryName));
+					if (
+						cache.items[0].link === latestItem.link ||
+						cache.items[0].title === latestItem.title
+					)
+						continue;
+				} catch (err) {
+					/* the cache content is either invalid or empty */
+				}
+
+				const alreadySent = latestMessages.some(
+					(msg) =>
+						JSON.stringify(msg).includes(latestItem.link || "") ||
+						JSON.stringify(msg).includes(latestItem.title || ""),
+				);
+
+				if (!alreadySent) {
+					this.cacher.write(entryName, JSON.stringify(feed));
+
+					await channel.send(
+						JSON.parse(format(JSON.stringify(message), latestItem)),
+					);
+
+					console.log(`Notification RSS ${feed.title} envoyée`);
 				}
 			}
 		}

@@ -60,6 +60,17 @@ const config: import("./configTypes").ConfigData = {
 				discordChannel: "snowflake",
 			},
 		],
+		externalRules: [
+			{
+				name: "UniqueNameForCaching",
+				message: {
+					content:
+						"A new article has been posted ! Check it out there !\n%link%",
+				},
+				rssFeed: "articleRssFeedUrl for example",
+				discordChannel: "snowflake",
+			},
+		],
 		queryInterval: {
 			minutes: 2,
 		},

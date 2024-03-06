@@ -5,6 +5,8 @@ untracked/
 .cache/
 .git/
 logs/
+dist/
+cache/
 node_modules/
 
 # Files

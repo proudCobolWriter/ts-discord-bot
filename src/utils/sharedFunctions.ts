@@ -5,11 +5,11 @@ export const format = (str: string, table: { [key: string]: string }): string =>
 		Object.keys(table)
 			.map((value) => "%" + value + "%")
 			.join("|"),
-		"gi"
+		"gi",
 	);
 	return str.replace(
 		re,
-		(matched: string) => table[matched.substring(1, matched.length - 1)]
+		(matched: string) => table[matched.substring(1, matched.length - 1)],
 	);
 };
 

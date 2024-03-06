@@ -15,10 +15,10 @@ export class JobService {
 				() => jobInfo.run(),
 				(err) => {
 					console.log(
-						`Une erreur est survenue lors de l'exécution de la tâche {${jobInfo.name}} :`
+						`Une erreur est survenue lors de l'exécution de la tâche {${jobInfo.name}} :`,
 					);
 					console.error(err);
-				}
+				},
 			);
 
 			const job = new SimpleIntervalJob(jobInfo.settings, task);

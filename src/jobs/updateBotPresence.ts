@@ -24,7 +24,7 @@ export class UpdateBotPresence implements Job {
 		if (!this.client.isReady() || !this.client.user) return;
 
 		const currentPresenceInfo = JSON.parse(
-			JSON.stringify(config.presenceSettings.presences[this.presenceIndex])
+			JSON.stringify(config.presenceSettings.presences[this.presenceIndex]),
 		) as PresenceDataExtra;
 
 		const { activities, retrieveGuildInfo } = currentPresenceInfo;
@@ -45,7 +45,7 @@ export class UpdateBotPresence implements Job {
 							case "%member_count%":
 								activity.name = activity.name?.replaceAll(
 									entry,
-									guild.memberCount.toLocaleString()
+									guild.memberCount.toLocaleString(),
 								);
 								break;
 							case "%channel_count%":
@@ -55,22 +55,22 @@ export class UpdateBotPresence implements Job {
 										.filter(
 											(channel) =>
 												channel?.type !==
-												ChannelType.GuildCategory
+												ChannelType.GuildCategory,
 										)
-										.size.toString()
+										.size.toString(),
 								);
 								break;
 							case "%role_count%":
 								activity.name = activity.name?.replaceAll(
 									entry,
-									(roles.size - 1).toString()
+									(roles.size - 1).toString(),
 								);
 						}
 					}
 				});
 			} else
 				console.error(
-					`{TÂCHE ${this.name}} Un serveur a été spécifié dans la configuration du bot mais est introuvable`
+					`{TÂCHE ${this.name}} Un serveur a été spécifié dans la configuration du bot mais est introuvable`,
 				);
 		}
 

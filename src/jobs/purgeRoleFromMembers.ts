@@ -30,7 +30,7 @@ export class RolePurger implements Job {
 			const membersWithRole = members.filter(
 				(member) =>
 					!rule.channels.includes(member.voice.channelId || "") &&
-					member.roles.cache.some((role) => rule.roles.includes(role.id))
+					member.roles.cache.some((role) => rule.roles.includes(role.id)),
 			);
 
 			await Promise.all(
@@ -38,15 +38,15 @@ export class RolePurger implements Job {
 					for (const role of rule.roles) {
 						await member.roles.remove(
 							role,
-							"Cet utilisateur n'est pas censé avoir ce rôle"
+							"Cet utilisateur n'est pas censé avoir ce rôle",
 						);
 					}
-				})
+				}),
 			);
 
 			if (membersWithRole.size > 0)
 				console.log(
-					`Purge effectuée pour ${rule.roles.length} rôle(s) sur le serveur ${guild.name} (${membersWithRole.size} membres(s) affecté(s))`
+					`Purge effectuée pour ${rule.roles.length} rôle(s) sur le serveur ${guild.name} (${membersWithRole.size} membres(s) affecté(s))`,
 				);
 		}
 	}

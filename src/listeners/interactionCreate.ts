@@ -13,7 +13,7 @@ import Commands from "../commands/command.js";
 const handleInteraction = async (
 	client: Client,
 	interaction: CommandInteraction,
-	rateLimiter: RateLimiter
+	rateLimiter: RateLimiter,
 ): Promise<void> => {
 	const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
@@ -55,7 +55,7 @@ const handleInteraction = async (
 
 const handleAutocompletion = async (
 	client: Client,
-	interaction: AutocompleteInteraction
+	interaction: AutocompleteInteraction,
 ) => {
 	const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
@@ -69,14 +69,14 @@ export default (client: Client, rateLimiter: RateLimiter): void => {
 		if (interaction.isCommand() || interaction.isContextMenuCommand()) {
 			handleInteraction(client, interaction, rateLimiter).catch((err) => {
 				console.log(
-					"Une erreur est survenue lors du traitement d'une interaction :"
+					"Une erreur est survenue lors du traitement d'une interaction :",
 				);
 				console.error(err);
 			});
 		} else if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
 			handleAutocompletion(client, interaction).catch((err) => {
 				console.log(
-					"Une erreur est survenue lors du traitement d'une autocomplétion :"
+					"Une erreur est survenue lors du traitement d'une autocomplétion :",
 				);
 				console.error(err);
 			});

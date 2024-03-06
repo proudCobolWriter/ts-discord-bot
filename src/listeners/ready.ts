@@ -15,12 +15,12 @@ export default (client: Client): void => {
 				console.log(
 					`Commande(s) (/) trouvée(s) : ${
 						Array.isArray(result) ? result.length : result.size
-					}`
+					}`,
 				);
 			})
 			.catch((err) => {
 				console.log(
-					"Une erreur est survenue lors de l'enregistrement des commandes (/) :"
+					"Une erreur est survenue lors de l'enregistrement des commandes (/) :",
 				);
 				console.error(err);
 			});

@@ -15,7 +15,7 @@ export default (client: Client): void => {
 
 		const messages = config.welcomeMessageSettings.messages;
 		const welcomeMessage = messages.find(
-			(message) => message.guild === member.guild.id
+			(message) => message.guild === member.guild.id,
 		);
 		if (!welcomeMessage) return;
 
@@ -36,17 +36,17 @@ export default (client: Client): void => {
 				JSON.parse(
 					JSON.stringify(welcomeMessage.message).replaceAll(
 						"%tag_user%",
-						"<@!" + member.user.id + ">"
-					)
-				)
+						"<@!" + member.user.id + ">",
+					),
+				),
 			);
 
 			console.log(
-				`${member.user.tag} a rejoint : Message de bienvenue envoyé dans le salon ${channel.name}`
+				`${member.user.tag} a rejoint : Message de bienvenue envoyé dans le salon ${channel.name}`,
 			);
 		} catch (err) {
 			console.log(
-				`Une erreur est survenue lors de l'envoi du message de bienvenue sur le serveur ${guild.name} :`
+				`Une erreur est survenue lors de l'envoi du message de bienvenue sur le serveur ${guild.name} :`,
 			);
 			console.error(err);
 		}

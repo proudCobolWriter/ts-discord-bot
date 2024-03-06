@@ -29,14 +29,14 @@ export default (client: Client): void => {
 
 		if (!guild) {
 			console.error(
-				"Un serveur Discord doit être spécifié pour envoyer des notifications de bannissement"
+				"Un serveur Discord doit être spécifié pour envoyer des notifications de bannissement",
 			);
 			return;
 		}
 
 		if (!channels) {
 			console.error(
-				"Un/des salon(s) Discord doit/doivent être spécifié(s) pour envoyer des notifications de bannissement"
+				"Un/des salon(s) Discord doit/doivent être spécifié(s) pour envoyer des notifications de bannissement",
 			);
 			return;
 		}
@@ -72,13 +72,13 @@ export default (client: Client): void => {
 						mod_id: firstLog.executor.id,
 						mod_tag: firstLog.executor.tag,
 						mod_mention: "<@!" + firstLog.executor.id + ">",
-					}).replaceAll("-101", randomHexColorRawNumber().toString())
+					}).replaceAll("-101", randomHexColorRawNumber().toString()),
 				);
 
 				await channel.send(formattedMessage);
 
 				console.log(
-					`Notification de débannissement envoyée dans le salon ${channel.name}`
+					`Notification de débannissement envoyée dans le salon ${channel.name}`,
 				);
 			}
 		} catch (err) {

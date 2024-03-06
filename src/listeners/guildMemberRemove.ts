@@ -1,3 +1,4 @@
+// WIP
 import { Events, type Client, ChannelType } from "discord.js";
 
 import config from "../../config.js";

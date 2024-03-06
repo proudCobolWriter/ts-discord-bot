@@ -8,7 +8,7 @@ type NumericRange<
 	START extends number,
 	END extends number,
 	ARR extends unknown[] = [],
-	ACC extends number = never
+	ACC extends number = never,
 > = ARR["length"] extends END
 	? ACC | START | END
 	: NumericRange<
@@ -16,7 +16,7 @@ type NumericRange<
 			END,
 			[...ARR, 1],
 			ARR[START] extends undefined ? ACC : ACC | ARR["length"]
-	  >;
+		>;
 
 //	 Types	 //
 export type DisableableSetting = {
@@ -50,8 +50,19 @@ export type YoutubeRule = {
 	readonly discordChannel: Snowflake;
 };
 
+export type ExternalRule = {
+	readonly name: string;
+	readonly message: BaseMessageOptions;
+	readonly rssFeed: string;
+	readonly discordChannel: Snowflake;
+};
+
 export type YoutubeNotificationSettings = {
 	readonly youtubeRules?: Array<YoutubeRule>;
+};
+
+export type ExternalNotificationSettings = {
+	readonly externalRules?: Array<ExternalRule>;
 };
 
 export interface PresenceDataExtra extends PresenceData {
@@ -98,7 +109,8 @@ export interface DailyMessageSettings extends DisableableSetting {
 
 export interface NotificationSettings
 	extends DisableableSetting,
-		YoutubeNotificationSettings {
+		YoutubeNotificationSettings,
+		ExternalNotificationSettings {
 	queryInterval: IntervalSchedule;
 }
 

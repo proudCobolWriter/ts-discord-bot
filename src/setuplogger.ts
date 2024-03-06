@@ -5,12 +5,23 @@ import "winston-daily-rotate-file";
 
 const { uncolorize, colorize, timestamp, combine, printf, label, errors, splat } = format;
 
+// Determine proper log output directory
+
+const isRunningOnDocker = process.env.DOCKER_RUNNING === "true";
+let logOutputDirectory;
+
+if (isRunningOnDocker) {
+	logOutputDirectory = "/usr/local/apps/ts-discord-bot/logs/";
+} else {
+	logOutputDirectory = "./logs/";
+}
+
 // Format //
 
 const isProductionEnv = process.env.NODE_ENV === "production";
 const logFormat = printf(
 	({ level, label, timestamp, message, stack }) =>
-		`[BOT-${label}] ${level}: ${timestamp}: ${stack || message}`
+		`[BOT-${label}] ${level}: ${timestamp}: ${stack || message}`,
 );
 
 // Transports //
@@ -20,14 +31,14 @@ const combinedConsoleTransport = new transports.Console();
 const errorFileRotateTransport = new transports.DailyRotateFile({
 	level: "error",
 	format: uncolorize(),
-	filename: `./logs/error/%DATE%.log`,
+	filename: `${logOutputDirectory}error/%DATE%.log`,
 	datePattern: "YYYY-MM-DD",
 	maxFiles: "50d",
 });
 
 const combinedFileRotateTransport = new transports.DailyRotateFile({
 	format: uncolorize(),
-	filename: `./logs/combined/%DATE%.log`,
+	filename: `${logOutputDirectory}combined/%DATE%.log`,
 	datePattern: "YYYY-MM-DD",
 	maxFiles: "50d",
 });
@@ -43,7 +54,7 @@ const logger = createLogger({
 		timestamp({ format: "MMM-DD-YYYY (HH:mm:ss)" }),
 		splat(),
 		errors({ stack: true }),
-		logFormat
+		logFormat,
 	),
 	transports: [
 		combinedConsoleTransport,
@@ -64,7 +75,7 @@ const processLog = (level: string, [...data]) => {
 							? typeof error.cause === "string"
 								? "cause: " + error.cause
 								: "cause: " +
-								  prettyPrintError((error as { cause: Error }).cause)
+									prettyPrintError((error as { cause: Error }).cause)
 							: error.stack
 					}`;
 

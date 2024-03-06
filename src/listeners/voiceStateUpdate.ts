@@ -16,7 +16,7 @@ const setRole = async (
 	guild: Guild,
 	member: GuildMember,
 	shouldHaveRole: boolean,
-	roleId: Snowflake
+	roleId: Snowflake,
 ): Promise<void> => {
 	const hasRole = member.roles.cache.some((role) => role.id === roleId);
 	if (shouldHaveRole === hasRole)
@@ -30,11 +30,11 @@ const setRole = async (
 		role,
 		`Cet utilisateur a ${
 			shouldHaveRole ? "rejoint" : "quitté"
-		} un canal vocal whitelist`
+		} un canal vocal whitelist`,
 	);
 
 	console.log(
-		`Rôle de ${member.user.username} ${shouldHaveRole ? "ajouté" : "retiré"}`
+		`Rôle de ${member.user.username} ${shouldHaveRole ? "ajouté" : "retiré"}`,
 	);
 };
 
@@ -53,7 +53,7 @@ export default (client: Client): void => {
 			const handlePromiseRejection = (promise: Promise<void>): void => {
 				promise.catch((err) => {
 					console.log(
-						"Une erreur a été rencontrée lors de l'assignation du rôle :"
+						"Une erreur a été rencontrée lors de l'assignation du rôle :",
 					);
 					console.error(err);
 				});
@@ -64,7 +64,7 @@ export default (client: Client): void => {
 					// Member left a voice channel
 					for (const role of roles) {
 						handlePromiseRejection(
-							setRole(newState.guild, member, false, role)
+							setRole(newState.guild, member, false, role),
 						);
 					}
 				} else if (newState.channelId !== null && oldState.channelId === null) {
@@ -75,8 +75,8 @@ export default (client: Client): void => {
 								newState.guild,
 								member,
 								channels.includes(newState.channelId),
-								role
-							)
+								role,
+							),
 						);
 					}
 				} else if (newState.channelId !== null && oldState.channelId !== null) {
@@ -87,12 +87,12 @@ export default (client: Client): void => {
 								newState.guild,
 								member,
 								channels.includes(newState.channelId),
-								role
-							)
+								role,
+							),
 						);
 					}
 				}
 			}
-		}
+		},
 	);
 };

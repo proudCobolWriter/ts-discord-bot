@@ -4,7 +4,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const defaultCachePath = resolve(__dirname, "..", "..", "cache");
+const defaultCachePath =
+	process.env.DOCKER_RUNNING === "true"
+		? "/usr/local/apps/ts-discord-bot/cache/"
+		: resolve(__dirname, "..", "..", "cache");
 
 export default class PersistentCacher {
 	private ensureCacheDir(): boolean | void {

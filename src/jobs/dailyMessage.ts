@@ -65,7 +65,7 @@ export class DailyMessage implements Job {
 			now.getUTCDate(),
 			now.getUTCHours(),
 			now.getUTCMinutes(),
-			now.getUTCSeconds()
+			now.getUTCSeconds(),
 		);
 
 		const afterUTC = new Date(
@@ -74,7 +74,7 @@ export class DailyMessage implements Job {
 			now.getUTCDate(),
 			config.dailyMessageSettings.UTCtime.hour,
 			config.dailyMessageSettings.UTCtime.minute,
-			config.dailyMessageSettings.UTCtime.second
+			config.dailyMessageSettings.UTCtime.second,
 		);
 
 		const dayOfYearNow = getDayOfYear(nowUTC);
@@ -93,7 +93,7 @@ export class DailyMessage implements Job {
 				if (discordUser.bot) continue;
 
 				await discordUser.send(
-					messages[Math.floor(Math.random() * messages.length)]
+					messages[Math.floor(Math.random() * messages.length)],
 				);
 
 				console.log(`Message envoyé avec succès à ${discordUser.tag}`);

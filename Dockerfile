@@ -1,4 +1,7 @@
-FROM node:17 as base
+FROM node:17-alpine as base
+
+# Get pnpm
+RUN npm install -g pnpm
 
 # Working directory
 WORKDIR /usr/src/ts-discord-bot
@@ -7,10 +10,10 @@ WORKDIR /usr/src/ts-discord-bot
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Run prettier
-RUN npm run prettify:fix
+RUN pnpm run prettify:fix
 
 # Copy src files
 COPY . .

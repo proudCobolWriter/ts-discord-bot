@@ -10,7 +10,9 @@ export type DeployResult =
 export const deploy = async (client: Client): Promise<DeployResult> => {
 	if (!client.application) throw new Error("Impossible de trouver client.application");
 
-	const shouldDeploy = process.argv.some((argument) => argument === deployArg);
+	const shouldDeploy =
+		process.argv.some((argument) => argument === deployArg) ||
+		process.env.DEPLOY === "true";
 	if (shouldDeploy) console.log(`Bot lancé avec l'argument ${deployArg}`);
 
 	return shouldDeploy ? client.application.commands.set(Commands) : Commands;

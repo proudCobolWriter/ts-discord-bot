@@ -25,5 +25,9 @@ docker-compose.prod.yml
 .gitattributes
 .gitignore
 .env
+.eslintignore
+.eslintrc
+config-default.ts
+notes.txt
 
 **/*.md

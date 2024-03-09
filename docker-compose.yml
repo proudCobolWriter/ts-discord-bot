@@ -1,13 +1,15 @@
 version: "3"
 services:
-  bot:
-    container_name: bot
+  ts-bot:
+    container_name: ts-bot
+    image: proudcobolwriter/ts-discord-bot
     build:
       context: .
       dockerfile: Dockerfile
       target: base
     environment:
       - TOKEN
+      - DEPLOY
     volumes:
       - ./src:/home/node/app/src
       - ./nodemon.json:/home/node/app/nodemon.json

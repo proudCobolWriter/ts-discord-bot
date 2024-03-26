@@ -13,6 +13,7 @@ import {
 	UpdateBotPresence,
 	Notifications,
 	RolePurger,
+	MessagePurger,
 	DailyMessage,
 } from "./jobs/index.js";
 
@@ -20,6 +21,7 @@ const jobService = new JobService([
 	new UpdateBotPresence(client),
 	new DailyMessage(client),
 	new RolePurger(client),
+	new MessagePurger(client),
 	new Notifications(client),
 ]);
 

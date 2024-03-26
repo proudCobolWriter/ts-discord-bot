@@ -35,6 +35,13 @@ const config: import("./configTypes").ConfigData = {
 			minutes: 15,
 		},
 	},
+	messagePurgerSettings: {
+		enable: false,
+		rules: [],
+		checkInterval: {
+			seconds: 30,
+		},
+	},
 	dailyMessageSettings: {
 		enable: false,
 		messageList: [],

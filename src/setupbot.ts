@@ -20,6 +20,7 @@ intents.add(
 	IntentsBitField.Flags.GuildMembers,
 	IntentsBitField.Flags.MessageContent,
 	IntentsBitField.Flags.GuildModeration,
+	IntentsBitField.Flags.GuildMessages,
 );
 
 // Setting up the bot

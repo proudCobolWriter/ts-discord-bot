@@ -38,6 +38,12 @@ export type AutoroleRule = {
 	readonly guild: Snowflake;
 };
 
+export type MessagePurgeRule = {
+	readonly channel: Snowflake;
+	readonly UTCtime: UTCtime;
+	readonly guild: Snowflake;
+};
+
 export type UTCtime = {
 	readonly hour: NumericRange<0, 24>;
 	readonly minute?: NumericRange<0, 60>;
@@ -100,6 +106,11 @@ export interface VoiceAutoroleSettings extends DisableableSetting {
 	purgeInterval: IntervalSchedule;
 }
 
+export interface MessagePurgerSettings extends DisableableSetting {
+	rules: Array<MessagePurgeRule>;
+	checkInterval: IntervalSchedule;
+}
+
 export interface DailyMessageSettings extends DisableableSetting {
 	messageList: BaseMessageOptions[];
 	usersAffected: Snowflake[];
@@ -124,6 +135,7 @@ export interface ConfigData {
 	moderationLogsSettings: Readonly<ModerationLogsSettings>;
 	welcomeMessageSettings: Readonly<WelcomeMessageSettings>;
 	voiceAutoroleSettings: Readonly<VoiceAutoroleSettings>;
+	messagePurgerSettings: Readonly<MessagePurgerSettings>;
 	dailyMessageSettings: Readonly<DailyMessageSettings>;
 	notificationSettings: Readonly<NotificationSettings>;
 	presenceSettings: Readonly<PresenceSettings>;

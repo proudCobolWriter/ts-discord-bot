@@ -15,7 +15,7 @@ services:
       - ./nodemon.json:/home/node/app/nodemon.json
       - ts-discord-bot-data:/usr/local/apps/ts-discord-bot/
     command: npm run dev
-    restart: unless-stopped
+    restart: always
 
 volumes:
   ts-discord-bot-data:

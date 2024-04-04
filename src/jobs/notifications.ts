@@ -86,6 +86,8 @@ export class Notifications implements Job {
 			const feed = await this.feedParser.parseURL(
 				URLs.FEED_YOUTUBE + rule.youtubeChannel,
 			);
+			console.log("Successfully retrieved the YouTube feed " + rule.youtubeChannel);
+			console.log(feed);
 
 			if (!feed || feed.items.length === 0) continue;
 			runRSSParser("YouTube", "ytb-" + rule.youtubeChannel, rule, feed);
@@ -93,6 +95,8 @@ export class Notifications implements Job {
 
 		for (const rule of config.notificationSettings.externalRules || []) {
 			const feed = await this.feedParser.parseURL(rule.rssFeed);
+			console.log("Successfully retrieved the YouTube rssFeed for " + rule.rssFeed);
+			console.log(feed);
 
 			if (!feed || feed.items.length === 0) continue;
 			runRSSParser("External", "rss-" + rule.name, rule, feed);

@@ -32,7 +32,7 @@ export class Notifications implements Job {
 	private client: Client;
 
 	constructor(client: Client) {
-		this.feedParser = Notifications.createParser();
+		this.feedParser = Notifications.createParser({ timeout: 10e3 });
 		this.cacher = Notifications.createCacher();
 		this.client = client;
 	}

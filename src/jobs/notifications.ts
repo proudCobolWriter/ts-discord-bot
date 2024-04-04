@@ -95,7 +95,7 @@ export class Notifications implements Job {
 			const feed = await this.feedParser.parseURL(rule.rssFeed);
 
 			if (!feed || feed.items.length === 0) continue;
-			runRSSParser("YouTube", "rss-" + rule.name, rule, feed);
+			runRSSParser("External", "rss-" + rule.name, rule, feed);
 		}
 	}
 }

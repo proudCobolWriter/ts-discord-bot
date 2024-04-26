@@ -86,7 +86,7 @@ export const say: Command = {
 
 			const attachment = interaction.options.getAttachment("attachment");
 			const messageContent = {
-				content: options[0].value,
+				content: (options[0].value as string).replaceAll("\\n", "\n"),
 			};
 
 			if (attachment) {

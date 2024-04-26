@@ -5,6 +5,7 @@ import type { LanguageCode } from "./misc.d.js";
 
 export enum CommandName {
 	about = "about",
+	say = "say",
 	ping = "ping",
 }
 

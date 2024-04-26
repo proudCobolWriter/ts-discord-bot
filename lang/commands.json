@@ -26,5 +26,11 @@
 		"descriptionLocalizations": {
 			"fr": "Renvoie la latence du bot en millisecondes"
 		}
+	},
+	"say": {
+		"nameLocalizations": {},
+		"descriptionLocalizations": {
+			"fr": "Envoie un message (commande admin)"
+		}
 	}
 }

@@ -14,7 +14,8 @@ export interface Command extends ChatInputApplicationCommandData {
 
 import { about } from "./about.js";
 import { ping } from "./ping.js";
+import { say } from "./say.js";
 
-const Commands: Command[] = [about, ping];
+const Commands: Command[] = [about, ping, say];
 
 export default Commands;

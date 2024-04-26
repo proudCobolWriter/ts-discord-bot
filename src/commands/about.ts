@@ -56,6 +56,7 @@ export const about: Command = {
 	descriptionLocalizations: lang.about.descriptionLocalizations,
 	type: ApplicationCommandType.ChatInput,
 	dmPermission: true,
+	defaultMemberPermissions: "0",
 	options: [
 		{
 			name: "language",
